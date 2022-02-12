@@ -16,5 +16,6 @@ describe("Adding a column should change global state of metadata", () => {
     expect(columns[0].propertyKey).toBe("name");
     expect(columns[0].target.name).toBe("Person");
     expect(columns[1].propertyKey).toBe("address");
+    expect(tables[0].target.name).toBe("Person");
   });
 });
