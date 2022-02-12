@@ -1,5 +1,5 @@
 import { Connection } from "../connection/Connection";
 
-export class EntityMetadata {
+export class SubjectMetadata {
   constructor(private connection: Connection) {}
 }

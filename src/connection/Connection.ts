@@ -1,4 +1,4 @@
-import { EntityManager } from "../entity/EntityManager";
+import { SubjectManager } from "../entity/SubjectManager";
 
 /*
 Target:
@@ -50,9 +50,9 @@ SELECT ?topic WHERE {
 */
 
 export class Connection {
-  readonly manager: EntityManager;
+  readonly manager: SubjectManager;
 
-  constructor(manager: EntityManager) {
+  constructor(manager: SubjectManager) {
     this.manager = manager;
   }
 }
