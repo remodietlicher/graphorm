@@ -1,4 +1,4 @@
-import { PredicateOptions } from "../decorator/options/PredicateOptions";
+import { PredicateOptions } from "../../decorator/options/PredicateOptions";
 
 export class PredicateMetaDataArgs {
   readonly target: Function;
