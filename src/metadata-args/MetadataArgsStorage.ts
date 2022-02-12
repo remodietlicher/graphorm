@@ -1,7 +1,7 @@
-import { ColumnMetaDataArgs } from "./ColumnMetadataArgs";
-import { TableMetaDataArgs } from "./TableMetadataArgs";
+import { PredicateMetaDataArgs } from "./PredicateMetadataArgs";
+import { SubjectMetaDataArgs } from "./SubjectMetadataArgs";
 
 export class MetadataArgsStorage {
-  columns: ColumnMetaDataArgs[] = [];
-  tables: TableMetaDataArgs[] = [];
+  predicates: PredicateMetaDataArgs[] = [];
+  subjects: SubjectMetaDataArgs[] = [];
 }

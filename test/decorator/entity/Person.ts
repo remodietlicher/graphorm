@@ -1,11 +1,11 @@
-import { Column } from "../../../src/decorator/Column";
-import { Entity } from "../../../src/decorator/Entity";
+import { Predicate } from "../../../src/decorator/Predicate";
+import { Subject } from "../../../src/decorator/Subject";
 
-@Entity()
+@Subject()
 export class Person {
-  @Column()
+  @Predicate()
   name: string;
 
-  @Column()
+  @Predicate()
   address: string;
 }

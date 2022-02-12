@@ -1,9 +1,9 @@
 import { getMetadataArgsStorage } from "../globals";
-import { ColumnOptions } from "./options/ColumnOptions";
+import { PredicateOptions } from "./options/PredicateOptions";
 
-export function Column(options?: ColumnOptions): PropertyDecorator {
+export function Predicate(options?: PredicateOptions): PropertyDecorator {
   return function (target: Object, propertyKey: string) {
-    getMetadataArgsStorage().columns.push({
+    getMetadataArgsStorage().predicates.push({
       target: target.constructor,
       propertyKey: propertyKey,
       options: options,
