@@ -1,4 +1,4 @@
-import { MetadataArgsStorage } from "./metadata-args/MetadataArgsStorage";
+import { MetadataArgsStorage } from "./metadata/args/MetadataArgsStorage";
 import { PlatformTools } from "./util/PlatformTools";
 
 export function getMetadataArgsStorage(): MetadataArgsStorage {
