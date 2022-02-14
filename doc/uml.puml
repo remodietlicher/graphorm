@@ -1,38 +1,40 @@
 @startuml sparql-orm
-object query
 
-class Connection
-Connection --* "1..N" SubjectMetadata
-Connection --* "1" SubjectManager: creates
-Connection --* "1" ComunicaDriver: creates
+namespace Library {
+    object query
+    class Connection
+    class SubjectManager
+    class SubjectMetadata
+    class PredicateMetadata
+    class ComunicaDriver
 
-class SubjectManager
-SubjectManager --> ComunicaDriver: uses
-SubjectManager --* "1..N" SubjectMetadata
+    namespace Global {
+        class SubjectMetadataArgs
+        class PredicateMetadataArgs
+    }
+}
 
-class SubjectMetadata
-SubjectMetadata --> SubjectManager: informs
-SubjectMetadata --> SubjectMetadataArgs: built from
-SubjectMetadata --* "1..N" PredicateMetadata
+namespace UserCode {
+    class Decorators
+    class SubjectClass
+}
 
-class PredicateMetadata
-PredicateMetadata --> PredicateMetadataArgs: built from
+Library.Connection --* "1..N" Library.SubjectMetadata
+Library.Connection --* "1" Library.SubjectManager: creates
+Library.Connection --* "1" Library.ComunicaDriver: creates
 
-class ComunicaDriver
-ComunicaDriver --> query: executes
+Library.SubjectManager --> Library.ComunicaDriver: uses
+Library.SubjectManager --* "1..N" Library.SubjectMetadata
 
-class SubjectClass
-SubjectClass --> SubjectMetadata
+Library.SubjectMetadata --> Library.Global.SubjectMetadataArgs: built from
+Library.SubjectMetadata --* "1..N" Library.PredicateMetadata
 
-object Decorators
-Decorators --> (SubjectClass, SubjectMetadata)
-Decorators --> SubjectMetadataArgs: translates to
-Decorators --> PredicateMetadataArgs: translates to
+Library.PredicateMetadata --> Library.Global.PredicateMetadataArgs: built from
 
-class SubjectMetadataArgs
+Library.ComunicaDriver --> query: executes
 
-class PredicateMetadataArgs
-
-
-
+UserCode.SubjectClass --> Library.SubjectMetadata
+UserCode.Decorators --> (UserCode.SubjectClass, Library.SubjectMetadata)
+UserCode.Decorators --> Library.Global.SubjectMetadataArgs
+UserCode.Decorators --> Library.Global.PredicateMetadataArgs
 @enduml
