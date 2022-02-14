@@ -2,7 +2,11 @@
 
 namespace Library {
     object query
-    class Connection
+    class Connection {
+        connect()
+        createMetadatas()
+        createSubjectManager()
+    }
     class SubjectManager
     class SubjectMetadata
     class PredicateMetadata
@@ -22,9 +26,6 @@ namespace UserCode {
 Library.Connection --* "1..N" Library.SubjectMetadata
 Library.Connection --* "1" Library.SubjectManager: creates
 Library.Connection --* "1" Library.ComunicaDriver: creates
-
-Library.SubjectManager --> Library.ComunicaDriver: uses
-Library.SubjectManager --* "1..N" Library.SubjectMetadata
 
 Library.SubjectMetadata --> Library.Global.SubjectMetadataArgs: built from
 Library.SubjectMetadata --* "1..N" Library.PredicateMetadata
