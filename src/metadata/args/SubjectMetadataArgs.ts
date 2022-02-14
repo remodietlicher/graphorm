@@ -1,6 +1,6 @@
 import { SubjectOptions } from "../../decorator/options/SubjectOptions";
 
-export class SubjectMetaDataArgs {
+export class SubjectMetadataArgs {
   readonly target: Function;
   readonly options: SubjectOptions | undefined;
 }

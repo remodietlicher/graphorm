@@ -7,5 +7,5 @@ export class Person {
   name: string;
 
   @Predicate()
-  address: string;
+  age: number;
 }

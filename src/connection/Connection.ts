@@ -1,5 +1,7 @@
 import { SubjectManager } from "../entity/SubjectManager";
+import { getMetadataArgsStorage } from "../globals";
 import { SubjectMetadata } from "../metadata/SubjectMetadata";
+import { SubjectMetadataBuilder } from "../metadata/SubjectMetadataBuilder";
 import { ObjectType } from "../util/ObjectType";
 
 /*
@@ -63,18 +65,16 @@ class Thesis {
   partOf: string
 }
 
-connection.manager.findAll([Thesis], {name: "Remo"})
+connection.manager.findAll(Thesis, {name: "Remo"})
 
 */
 
 export class Connection {
   readonly manager: SubjectManager;
 
-  readonly subjectMetadatas: SubjectMetadata[] = [];
+  subjectMetadatas: SubjectMetadata[];
 
-  constructor(manager: SubjectManager) {
-    this.manager = manager;
-  }
+  constructor() {}
 
   findMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
     return this.subjectMetadatas.find((metadata) => {
@@ -84,5 +84,13 @@ export class Connection {
 
   getMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
     return this.findMetadata(target);
+  }
+
+  buildMetadatas() {
+    const metadataBuilder = new SubjectMetadataBuilder(
+      getMetadataArgsStorage(),
+      this
+    );
+    this.subjectMetadatas = metadataBuilder.build();
   }
 }
