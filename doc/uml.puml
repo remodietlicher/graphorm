@@ -1,0 +1,38 @@
+@startuml sparql-orm
+object query
+
+class Connection
+Connection --* "1..N" SubjectMetadata
+Connection --* "1" SubjectManager: creates
+Connection --* "1" ComunicaDriver: creates
+
+class SubjectManager
+SubjectManager --> ComunicaDriver: uses
+SubjectManager --* "1..N" SubjectMetadata
+
+class SubjectMetadata
+SubjectMetadata --> SubjectManager: informs
+SubjectMetadata --> SubjectMetadataArgs: built from
+SubjectMetadata --* "1..N" PredicateMetadata
+
+class PredicateMetadata
+PredicateMetadata --> PredicateMetadataArgs: built from
+
+class ComunicaDriver
+ComunicaDriver --> query: executes
+
+class SubjectClass
+SubjectClass --> SubjectMetadata
+
+object Decorators
+Decorators --> (SubjectClass, SubjectMetadata)
+Decorators --> SubjectMetadataArgs: translates to
+Decorators --> PredicateMetadataArgs: translates to
+
+class SubjectMetadataArgs
+
+class PredicateMetadataArgs
+
+
+
+@enduml
