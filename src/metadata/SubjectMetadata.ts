@@ -3,6 +3,8 @@ import { SubjectMetadataArgs } from "./args/SubjectMetadataArgs";
 import { PredicateMetadata } from "./PredicateMetadata";
 
 export class SubjectMetadata {
+  rdfObject: string;
+
   target: Function;
 
   metadataArgs: SubjectMetadataArgs;
@@ -17,6 +19,7 @@ export class SubjectMetadata {
   }
 
   build() {
+    this.rdfObject = this.metadataArgs.rdfObject;
     this.target = this.metadataArgs.target;
   }
 

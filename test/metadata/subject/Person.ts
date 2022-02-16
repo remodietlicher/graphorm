@@ -1,11 +1,11 @@
 import { Predicate } from "../../../src/decorator/Predicate";
 import { Subject } from "../../../src/decorator/Subject";
 
-@Subject()
+@Subject("ioh")
 export class Person {
-  @Predicate()
+  @Predicate("blib")
   name: string;
 
-  @Predicate()
+  @Predicate("blub")
   age: number;
 }

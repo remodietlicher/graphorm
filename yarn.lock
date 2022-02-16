@@ -362,6 +362,16 @@
   resolved "https://registry.yarnpkg.com/@comunica/actor-http-proxy/-/actor-http-proxy-1.22.1.tgz#ccc70c4eda51d0d2960c3d6f90cc4a7c5d142e21"
   integrity sha512-q8Dil+MnKeZWKNxLLDXan070TUP+8io7zwwCs5apvaU26ghojBU4OOJx1vL6CInUjZCzTeyCYVPsBbvykjLZ2w==
 
+"@comunica/actor-init-sparql-file@^1.22.3":
+  version "1.22.3"
+  resolved "https://registry.yarnpkg.com/@comunica/actor-init-sparql-file/-/actor-init-sparql-file-1.22.3.tgz#244a3f4cbf92c7b8cf5cc30101e090c1915fde1f"
+  integrity sha512-NG2zVziDX1Iy91g4LgS2abCXj5TJHdeiiC8ltCwanP7vU5nYfEYawnqmc4qxJFbK8ftwIMR9VExSIS0Jqyc9wg==
+  dependencies:
+    "@comunica/actor-init-sparql" "^1.22.3"
+    "@comunica/actor-rdf-dereference-file" "^1.22.2"
+    "@comunica/runner-cli" "^1.22.0"
+    sparqlalgebrajs "^3.0.0"
+
 "@comunica/actor-init-sparql@^1.22.3":
   version "1.22.3"
   resolved "https://registry.yarnpkg.com/@comunica/actor-init-sparql/-/actor-init-sparql-1.22.3.tgz#d3d7fde0d5a951c14eeb1e431091dccc0dbd3be8"
@@ -934,6 +944,11 @@
   version "1.22.2"
   resolved "https://registry.yarnpkg.com/@comunica/actor-rdf-dereference-fallback/-/actor-rdf-dereference-fallback-1.22.2.tgz#ea8ed11e1b6ed2cb94271f72049c7362efcc0ab3"
   integrity sha512-EzvBerax4WVOxmkRuHviehUQ3VUU0CPHV+fErFB9+s5UbXHk6MU3GqzH9iehoFYzpP7Xic0VZXFd34nCTvzmtg==
+
+"@comunica/actor-rdf-dereference-file@^1.22.2":
+  version "1.22.2"
+  resolved "https://registry.yarnpkg.com/@comunica/actor-rdf-dereference-file/-/actor-rdf-dereference-file-1.22.2.tgz#da2498c2c9ac0bba1761975e10cb4f1e4e1190e2"
+  integrity sha512-KrjPfjdRQYVKyl7r8RiYK69HQ3f00f6RAc9BOhb0hlq/2PHtddAQ4oVNvs20PgHOKswsQsefd/HenLUhfa7+gw==
 
 "@comunica/actor-rdf-dereference-http-parse@^1.22.3":
   version "1.22.3"
@@ -4092,6 +4107,11 @@ readable-web-to-node-stream@^3.0.2:
   integrity sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==
   dependencies:
     readable-stream "^3.6.0"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 relative-to-absolute-iri@^1.0.0, relative-to-absolute-iri@^1.0.2, relative-to-absolute-iri@^1.0.5, relative-to-absolute-iri@^1.0.6:
   version "1.0.6"

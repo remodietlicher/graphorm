@@ -28,7 +28,8 @@ export class SubjectMetadataBuilder {
         (p) => p.target.name === s.target.name
       );
       const predicates = predicateArgs.map(
-        (p) => new PredicateMetadata(p.target, p.propertyKey)
+        (p) =>
+          new PredicateMetadata(p.predicate, p.type, p.target, p.propertyKey)
       );
       s.registerPredicates(predicates);
       return s;

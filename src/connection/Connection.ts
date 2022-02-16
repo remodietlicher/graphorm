@@ -70,7 +70,7 @@ connection.manager.findAll(Thesis, {name: "Remo"})
 */
 
 export class Connection {
-  readonly manager: SubjectManager;
+  manager: SubjectManager;
 
   subjectMetadatas: SubjectMetadata[];
 
@@ -92,5 +92,9 @@ export class Connection {
       this
     );
     this.subjectMetadatas = metadataBuilder.build();
+  }
+
+  createSubjectManager() {
+    this.manager = new SubjectManager(this);
   }
 }

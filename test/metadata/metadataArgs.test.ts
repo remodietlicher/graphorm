@@ -1,5 +1,5 @@
 import { getMetadataArgsStorage } from "../../src/globals";
-import { Person } from "./entity/Person";
+import { Person } from "./subject/Person";
 
 describe("Adding a column should change global state of metadata", () => {
   it("should add the hello column", () => {
