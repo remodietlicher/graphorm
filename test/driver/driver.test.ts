@@ -9,9 +9,11 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     connection.buildMetadatas();
     connection.createSubjectManager();
 
-    const remo = await connection.manager.findAll(Person, {}, [
-      { type: "sparql", value: "http://localhost:3000/sparql" },
-    ]);
+    const remo: Person | undefined = await connection.manager.findAll(
+      Person,
+      {},
+      [{ type: "sparql", value: "http://localhost:3000/sparql" }]
+    );
 
     if (remo) {
       expect(remo.name).toBe("Remo");
