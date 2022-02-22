@@ -28,4 +28,14 @@ export class SubjectManager {
       return result;
     }
   }
+
+  async save<Subject>(subject: Subject, source: ComunicaSourceType) {
+    const metadata = this.connection.getMetadata(
+      Object.getPrototypeOf(subject).constructor
+    );
+    const queryDriver = new ComunicaDriver();
+    if (metadata) {
+      const result = await queryDriver.insertQuery(subject, metadata, source);
+    }
+  }
 }

@@ -1,3 +1,8 @@
+import {
+  getDefaultSession,
+  login,
+  Session,
+} from "@inrupt/solid-client-authn-browser";
 import { SubjectManager } from "../entity/SubjectManager";
 import { getMetadataArgsStorage } from "../globals";
 import { SubjectMetadata } from "../metadata/SubjectMetadata";
@@ -74,7 +79,21 @@ export class Connection {
 
   subjectMetadatas: SubjectMetadata[];
 
-  constructor() {}
+  readonly session: Session;
+
+  constructor() {
+    this.session = getDefaultSession();
+  }
+
+  async connect(oidcIssuer: string) {
+    if (!this.session.info.isLoggedIn) {
+      await login({
+        oidcIssuer: oidcIssuer,
+        redirectUrl: window.location.href,
+        clientName: "sparql-orm",
+      });
+    }
+  }
 
   findMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
     return this.subjectMetadatas.find((metadata) => {

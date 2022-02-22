@@ -27,10 +27,16 @@ export class SubjectMetadataBuilder {
       const predicateArgs = this._metadataArgsStorage.predicates.filter(
         (p) => p.target.name === s.target.name
       );
-      const predicates = predicateArgs.map(
-        (p) =>
-          new PredicateMetadata(p.predicate, p.type, p.target, p.propertyKey)
-      );
+      const predicates = predicateArgs.map((p) => {
+        const primary = p.options?.primary ? p.options.primary : false;
+        return new PredicateMetadata(
+          p.predicate,
+          p.type,
+          p.target,
+          p.propertyKey,
+          primary
+        );
+      });
       s.registerPredicates(predicates);
       return s;
     });

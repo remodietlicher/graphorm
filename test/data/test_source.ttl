@@ -3,5 +3,6 @@
 
 :me
     a foaf:Person;
-    foaf:name "Remo";
+    foaf:firstName "Remo";
+    foaf:lastName "Dietlicher";
     foaf:age 31.
