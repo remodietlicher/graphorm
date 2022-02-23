@@ -23,7 +23,10 @@
   "dependencies": {
     "@comunica/actor-init-sparql": "^1.22.3",
     "@inrupt/solid-client-authn-browser": "1.11.3",
-    "@inrupt/solid-client-authn-core": "1.11.3",
     "reflect-metadata": "^0.1.13"
+  },
+  "resolutions": {
+    "@inrupt/solid-client-authn-core": "1.11.3",
+    "@inrupt/oidc-client-ext": "1.11.3"
   }
 }
