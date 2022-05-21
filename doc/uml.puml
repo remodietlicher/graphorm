@@ -7,9 +7,7 @@ namespace Library {
         selectQuery()
     }
     class ComunicaDriver
-    class ComunicaSolidDriver {
-        Session session
-    }
+    class ComunicaSolidDriver
 
     class DataModel {
         SubjectMetadata[] subjects
@@ -21,8 +19,8 @@ namespace Library {
     class SubjectManager {
         DataModel model
         QueryDriver driver
-        find(subjectClass, sources)
-        save(subjectClass, source)
+        find(subjectClass, sources, session?)
+        save(subjectClass, source, session?)
     }
     class SubjectMetadata
     class PredicateMetadata
