@@ -1,4 +1,4 @@
-import { Connection } from "../../src/connection/Connection";
+import { DataModel } from "../../src/data-model/DataModel";
 import { Person } from "./subject/Person";
 import { start } from "molid";
 
@@ -35,16 +35,17 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   });
   it("should produce correct SPARQL syntax for subject class", async () => {
     // const p = new Person();
-    const connection = new Connection();
+    const model = new DataModel({
+      type: "comunica-solid",
+      subjects: [Person],
+    });
 
-    connection.buildMetadatas();
-    connection.createSubjectManager();
+    model.buildMetadatas();
+    model.createSubjectManager();
 
-    const remo: Person | undefined = await connection.manager.findAll(
-      Person,
-      {},
-      [molid.uri("/profile/card")]
-    );
+    const remo: Person | undefined = await model.manager.findAll(Person, {}, [
+      molid.uri("/profile/card"),
+    ]);
 
     if (remo) {
       expect(remo.firstName).toBe("Remo");
@@ -57,19 +58,19 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   });
   it("should produce a correct SPARQL insert data query for subject class", async () => {
     const p = new Person();
-    const connection = new Connection();
+    const model = new DataModel({
+      type: "comunica-solid",
+      subjects: [Person],
+    });
 
-    connection.buildMetadatas();
-    connection.createSubjectManager();
+    model.buildMetadatas();
+    model.createSubjectManager();
 
     p.firstName = "Hans";
     p.lastName = "Muster";
     p.age = 89;
 
-    await connection.manager.save(
-      p,
-      "https://remo.solid.tschenten.ch/profile/card"
-    );
+    await model.manager.save(p, "https://remo.solid.tschenten.ch/profile/card");
     console.log("done");
   });
 });

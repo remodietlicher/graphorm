@@ -1,4 +1,4 @@
-import { Connection } from "../connection/Connection";
+import { DataModel } from "../data-model/DataModel";
 import { MetadataArgsStorage } from "./args/MetadataArgsStorage";
 import { PredicateMetadata } from "./PredicateMetadata";
 import { SubjectMetadata } from "./SubjectMetadata";
@@ -6,19 +6,16 @@ import { SubjectMetadata } from "./SubjectMetadata";
 export class SubjectMetadataBuilder {
   private _metadataArgsStorage: MetadataArgsStorage;
 
-  private _connection: Connection;
+  private _model: DataModel;
 
-  constructor(
-    metadataArgsStorage: MetadataArgsStorage,
-    connection: Connection
-  ) {
+  constructor(metadataArgsStorage: MetadataArgsStorage, model: DataModel) {
     this._metadataArgsStorage = metadataArgsStorage;
-    this._connection = connection;
+    this._model = model;
   }
 
   build(): SubjectMetadata[] {
     let subjectMetadatas = this._metadataArgsStorage.subjects.map((s) => {
-      const subjectMetadata = new SubjectMetadata(this._connection, s);
+      const subjectMetadata = new SubjectMetadata(this._model, s);
       subjectMetadata.build();
       return subjectMetadata;
     });

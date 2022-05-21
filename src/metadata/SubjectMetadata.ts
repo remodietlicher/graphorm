@@ -1,4 +1,4 @@
-import { Connection } from "../connection/Connection";
+import { DataModel } from "../data-model/DataModel";
 import { SubjectMetadataArgs } from "./args/SubjectMetadataArgs";
 import { PredicateMetadata } from "./PredicateMetadata";
 
@@ -11,10 +11,10 @@ export class SubjectMetadata {
 
   predicates: PredicateMetadata[] = [];
 
-  readonly _connection: Connection;
+  readonly _model: DataModel;
 
-  constructor(connection: Connection, metadataArgs: SubjectMetadataArgs) {
-    this._connection = connection;
+  constructor(model: DataModel, metadataArgs: SubjectMetadataArgs) {
+    this._model = model;
     this.metadataArgs = metadataArgs;
   }
 

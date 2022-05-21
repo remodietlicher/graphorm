@@ -3,6 +3,7 @@ import { getMetadataArgsStorage } from "../globals";
 import { SubjectMetadata } from "../metadata/SubjectMetadata";
 import { SubjectMetadataBuilder } from "../metadata/SubjectMetadataBuilder";
 import { ObjectType } from "../util/ObjectType";
+import DataModelOptions from "./options/DataModelOptions";
 
 /*
 Target:
@@ -65,19 +66,24 @@ class Thesis {
   partOf: string
 }
 
-connection.manager.findAll(Thesis, {name: "Remo"})
+model.manager.findAll(Thesis, {name: "Remo"})
 
 */
 
-export class Connection {
+export class DataModel {
   manager: SubjectManager;
 
-  subjectMetadatas: SubjectMetadata[];
+  _subjectMetadatas: SubjectMetadata[];
+  queryType: string;
+  _connectedSubjects: ObjectType<any>[];
 
-  constructor() {}
+  constructor(options: DataModelOptions) {
+    this.queryType = options.type;
+    this._connectedSubjects = options.subjects;
+  }
 
   findMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
-    return this.subjectMetadatas.find((metadata) => {
+    return this._subjectMetadatas.find((metadata) => {
       return metadata.target === target;
     });
   }
@@ -91,7 +97,7 @@ export class Connection {
       getMetadataArgsStorage(),
       this
     );
-    this.subjectMetadatas = metadataBuilder.build();
+    this._subjectMetadatas = metadataBuilder.build();
   }
 
   createSubjectManager() {

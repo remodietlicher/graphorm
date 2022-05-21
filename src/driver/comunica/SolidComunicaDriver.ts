@@ -6,8 +6,10 @@ import { newEngine } from "@comunica/actor-init-sparql-solid";
 import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import { SubjectMetadata } from "../../metadata/SubjectMetadata";
 import { ObjectType } from "../../util/ObjectType";
+import QueryDriver from "../QueryDriver";
+import { ComunicaSourceType } from "./ComunicaSourceType";
 
-export class SolidComunicaDriver {
+export class SolidComunicaDriver implements QueryDriver {
   private _engine: ActorInitSparql;
 
   constructor() {
@@ -17,7 +19,7 @@ export class SolidComunicaDriver {
   async selectQuery<Subject>(
     subjectClass: ObjectType<Subject>,
     metadata: SubjectMetadata,
-    sources: string[]
+    sources: string[] | ComunicaSourceType[]
   ) {
     const select = metadata.predicates.map((e) => `?${e.name}`);
 
@@ -62,7 +64,7 @@ export class SolidComunicaDriver {
   async insertQuery<Subject>(
     subject: Subject,
     metadata: SubjectMetadata,
-    source: string
+    source: string | ComunicaSourceType
   ) {
     const data: string[] = [];
 

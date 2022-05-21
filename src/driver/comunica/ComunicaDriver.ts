@@ -5,9 +5,10 @@ import {
 } from "@comunica/actor-init-sparql";
 import { SubjectMetadata } from "../../metadata/SubjectMetadata";
 import { ObjectType } from "../../util/ObjectType";
+import QueryDriver from "../QueryDriver";
 import { ComunicaSourceType } from "./ComunicaSourceType";
 
-export class ComunicaDriver {
+export class ComunicaDriver implements QueryDriver {
   private _engine: ActorInitSparql;
 
   constructor() {

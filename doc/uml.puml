@@ -1,18 +1,31 @@
 @startuml sparql-orm
 
 namespace Library {
-    object query
-    class Connection {
-        String endpoint
+
+    class QueryDriver {
+        insertQuery()
+        selectQuery()
+    }
+    class ComunicaDriver
+    class ComunicaSolidDriver {
         Session session
-        connect()
+    }
+
+    class DataModel {
+        SubjectMetadata[] subjects
+        SubjectManager manager
         createMetadatas()
         createSubjectManager()
+        getMetadata()
     }
-    class SubjectManager
+    class SubjectManager {
+        DataModel model
+        QueryDriver driver
+        find(subjectClass, sources)
+        save(subjectClass, source)
+    }
     class SubjectMetadata
     class PredicateMetadata
-    class ComunicaDriver
 
     namespace Global {
         class SubjectMetadataArgs
@@ -25,19 +38,19 @@ namespace UserCode {
     class SubjectClass
 }
 
-Library.Connection --* "1..N" Library.SubjectMetadata
-Library.Connection --* "1" Library.SubjectManager: creates
-Library.Connection --* "1" Library.ComunicaDriver: creates
+Library.ComunicaSolidDriver --> Library.QueryDriver: implements
+Library.ComunicaDriver --> Library.QueryDriver: implements
+
+Library.DataModel --* "1..N" Library.SubjectMetadata
+Library.DataModel "1" *--* "1" Library.SubjectManager
+Library.SubjectManager --* "1" Library.QueryDriver
 
 Library.SubjectMetadata --> Library.Global.SubjectMetadataArgs: built from
 Library.SubjectMetadata --* "1..N" Library.PredicateMetadata
 
 Library.PredicateMetadata --> Library.Global.PredicateMetadataArgs: built from
 
-Library.ComunicaDriver --> query: executes
-
-UserCode.SubjectClass --> Library.SubjectMetadata
-UserCode.Decorators --> (UserCode.SubjectClass, Library.SubjectMetadata)
+UserCode.SubjectClass --> UserCode.Decorators: has
 UserCode.Decorators --> Library.Global.SubjectMetadataArgs: creates
 UserCode.Decorators --> Library.Global.PredicateMetadataArgs: creates
 @enduml
