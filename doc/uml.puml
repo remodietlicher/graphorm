@@ -3,6 +3,8 @@
 namespace Library {
     object query
     class Connection {
+        String endpoint
+        Session session
         connect()
         createMetadatas()
         createSubjectManager()
@@ -36,6 +38,6 @@ Library.ComunicaDriver --> query: executes
 
 UserCode.SubjectClass --> Library.SubjectMetadata
 UserCode.Decorators --> (UserCode.SubjectClass, Library.SubjectMetadata)
-UserCode.Decorators --> Library.Global.SubjectMetadataArgs
-UserCode.Decorators --> Library.Global.PredicateMetadataArgs
+UserCode.Decorators --> Library.Global.SubjectMetadataArgs: creates
+UserCode.Decorators --> Library.Global.PredicateMetadataArgs: creates
 @enduml

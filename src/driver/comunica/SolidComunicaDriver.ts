@@ -1,13 +1,13 @@
 import {
   ActorInitSparql,
   IQueryResultBindings,
-  newEngine,
 } from "@comunica/actor-init-sparql";
+import { newEngine } from "@comunica/actor-init-sparql-solid";
+import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import { SubjectMetadata } from "../../metadata/SubjectMetadata";
 import { ObjectType } from "../../util/ObjectType";
-import { ComunicaSourceType } from "./ComunicaSourceType";
 
-export class ComunicaDriver {
+export class SolidComunicaDriver {
   private _engine: ActorInitSparql;
 
   constructor() {
@@ -32,7 +32,11 @@ export class ComunicaDriver {
       }
     `;
 
-    const raw = await this._engine.query(query, { sources: sources });
+    const raw = await this._engine.query(query, {
+      sources: sources,
+      "@comunica/actor-http-inrupt-solid-client-authn:session":
+        getDefaultSession(),
+    });
 
     const bindings = await (raw as IQueryResultBindings).bindings();
 
@@ -58,7 +62,7 @@ export class ComunicaDriver {
   async insertQuery<Subject>(
     subject: Subject,
     metadata: SubjectMetadata,
-    source: ComunicaSourceType
+    source: string
   ) {
     const data: string[] = [];
 
@@ -72,6 +76,8 @@ export class ComunicaDriver {
     }
 
     const subjectName = primaryPropertyValues.join("");
+
+    const subjectURI = `<${source}#${subjectName}>`;
 
     for (const [key, value] of Object.entries(subject)) {
       const predicate = metadata.predicates.find((e) => e.name === key);
@@ -89,13 +95,12 @@ export class ComunicaDriver {
           }
         }
         data.push(`
-        :${subjectName} ${predicate.predicate} ${rdfObject}.
+        ${subjectURI} ${predicate.predicate} ${rdfObject}.
       `);
       }
     }
 
     const query = `
-      PREFIX : <#>
       INSERT DATA {
         ${data.join("\n")}
       }
@@ -104,7 +109,8 @@ export class ComunicaDriver {
     console.log(query);
     const result = await this._engine.query(query, {
       sources: [source],
-      baseIRI: "https://localhost:3000",
+      "@comunica/actor-http-inrupt-solid-client-authn:session":
+        getDefaultSession(),
     });
     await (result as any).updateResult;
   }

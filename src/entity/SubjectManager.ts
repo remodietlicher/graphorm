@@ -1,6 +1,6 @@
 import { Connection } from "../connection/Connection";
-import { ComunicaDriver } from "../driver/comunica/ComunicaDriver";
 import { ComunicaSourceType } from "../driver/comunica/ComunicaSourceType";
+import { SolidComunicaDriver } from "../driver/comunica/SolidComunicaDriver";
 import { ObjectType } from "../util/ObjectType";
 
 export class SubjectManager {
@@ -13,11 +13,11 @@ export class SubjectManager {
   async findAll<Subject>(
     subjectClass: ObjectType<Subject>,
     condition: any,
-    sources: ComunicaSourceType[]
+    sources: string[]
   ) {
     const metadata = this.connection.getMetadata(subjectClass);
 
-    const queryDriver = new ComunicaDriver();
+    const queryDriver = new SolidComunicaDriver();
 
     if (metadata) {
       const result = await queryDriver.selectQuery(
@@ -29,11 +29,11 @@ export class SubjectManager {
     }
   }
 
-  async save<Subject>(subject: Subject, source: ComunicaSourceType) {
+  async save<Subject>(subject: Subject, source: string) {
     const metadata = this.connection.getMetadata(
       Object.getPrototypeOf(subject).constructor
     );
-    const queryDriver = new ComunicaDriver();
+    const queryDriver = new SolidComunicaDriver();
     if (metadata) {
       const result = await queryDriver.insertQuery(subject, metadata, source);
     }
