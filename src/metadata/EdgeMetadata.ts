@@ -1,5 +1,5 @@
 export class EdgeMetadata {
-  readonly predicate: string;
+  readonly edge: string;
   readonly type: string;
   readonly target: Function;
   readonly name: string;
@@ -12,7 +12,7 @@ export class EdgeMetadata {
     name: string,
     primary: boolean
   ) {
-    this.predicate = edge;
+    this.edge = edge;
     this.type = type;
     this.target = target;
     this.name = name;

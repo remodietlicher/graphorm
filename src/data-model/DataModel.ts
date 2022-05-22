@@ -52,17 +52,17 @@ User code:
 
 @Node(...)
 class Person {
-  @Predicate(...)
+  @Edge(...)
   name: string
-  @Predicate(...)
+  @Edge(...)
   diplomas: string[]
 }
 
 @Node(...)
 class Thesis {
-  @Predicate(...)
+  @Edge(...)
   topic: string
-  @Predicate(...)
+  @Edge(...)
   partOf: string
 }
 

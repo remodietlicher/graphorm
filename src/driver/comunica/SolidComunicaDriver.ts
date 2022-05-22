@@ -23,14 +23,12 @@ export class SolidComunicaDriver implements QueryDriver {
   ) {
     const select = metadata.edges.map((e) => `?${e.name}`);
 
-    const predicateTriplets = metadata.edges.map(
-      (p) => `?x ${p.predicate} ?${p.name}.`
-    );
+    const triplets = metadata.edges.map((p) => `?x ${p.edge} ?${p.name}.`);
 
     const query = `
       SELECT ${select.join(" ")} WHERE {
         ?x a ${metadata.rdfObject}.
-        ${predicateTriplets.join("\n")}
+        ${triplets.join("\n")}
       }
     `;
 
@@ -82,11 +80,11 @@ export class SolidComunicaDriver implements QueryDriver {
     const nodeURI = `<${source}#${nodeName}>`;
 
     for (const [key, value] of Object.entries(node)) {
-      const predicate = metadata.edges.find((e) => e.name === key);
+      const edge = metadata.edges.find((e) => e.name === key);
 
       let rdfObject = "";
-      if (predicate) {
-        switch (predicate.type) {
+      if (edge) {
+        switch (edge.type) {
           case "String": {
             rdfObject = `"${value}"`;
             break;
@@ -97,7 +95,7 @@ export class SolidComunicaDriver implements QueryDriver {
           }
         }
         data.push(`
-        ${nodeURI} ${predicate.predicate} ${rdfObject}.
+        ${nodeURI} ${edge.edge} ${rdfObject}.
       `);
       }
     }
