@@ -3,7 +3,7 @@ import { ObjectType } from "../../util/ObjectType";
 
 interface DataModelOptions {
   type: QueryDriverType;
-  subjects: ObjectType<any>[];
+  nodes: ObjectType<any>[];
 }
 
 export default DataModelOptions;

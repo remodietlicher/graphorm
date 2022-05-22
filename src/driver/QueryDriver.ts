@@ -1,18 +1,18 @@
-import { SubjectMetadata } from "../metadata/SubjectMetadata";
+import { NodeMetadata } from "../metadata/NodeMetadata";
 import { ObjectType } from "../util/ObjectType";
 import { ComunicaSourceType } from "./comunica/ComunicaSourceType";
 
 export type QueryDriverType = "comunica" | "comunica-solid";
 
 abstract class QueryDriver {
-  abstract selectQuery<Subject>(
-    subjectClass: ObjectType<Subject>,
-    metadata: SubjectMetadata,
+  abstract selectQuery<Node>(
+    nodeClass: ObjectType<Node>,
+    metadata: NodeMetadata,
     sources: string[] | ComunicaSourceType[]
   );
-  abstract insertQuery<Subject>(
-    subject: Subject,
-    metadata: SubjectMetadata,
+  abstract insertQuery<Node>(
+    node: Node,
+    metadata: NodeMetadata,
     source: string | ComunicaSourceType
   );
 }

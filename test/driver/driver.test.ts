@@ -1,5 +1,5 @@
 import { DataModel } from "../../src/data-model/DataModel";
-import { Person } from "./subject/Person";
+import { Person } from "./node/Person";
 import { start } from "molid";
 
 import {
@@ -20,7 +20,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     const session = new Session();
     await session.login({
       oidcIssuer: "https://solidcommunity.net",
-      clientName: "Jest testing sparql-orm",
+      clientName: "Jest testing graphorm",
       handleRedirect: () => {
         console.log("logged in!");
       },
@@ -33,15 +33,15 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   afterAll(async () => {
     await molid.stop();
   });
-  it("should produce correct SPARQL syntax for subject class", async () => {
+  it("should produce correct SPARQL syntax for node class", async () => {
     // const p = new Person();
     const model = new DataModel({
       type: "comunica-solid",
-      subjects: [Person],
+      nodes: [Person],
     });
 
     model.buildMetadatas();
-    model.createSubjectManager();
+    model.createNodeManager();
 
     const remo: Person | undefined = await model.manager.findAll(Person, {}, [
       molid.uri("/profile/card"),
@@ -56,15 +56,15 @@ describe("Executing a query should produce the correct SPARQL query string", () 
       expect("remo is undefined").toBe("never");
     }
   });
-  it("should produce a correct SPARQL insert data query for subject class", async () => {
+  it("should produce a correct SPARQL insert data query for node class", async () => {
     const p = new Person();
     const model = new DataModel({
       type: "comunica-solid",
-      subjects: [Person],
+      nodes: [Person],
     });
 
     model.buildMetadatas();
-    model.createSubjectManager();
+    model.createNodeManager();
 
     p.firstName = "Hans";
     p.lastName = "Muster";

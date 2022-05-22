@@ -1,4 +1,4 @@
-@startuml sparql-orm
+@startuml graphorm
 
 namespace Library {
 
@@ -10,45 +10,45 @@ namespace Library {
     class ComunicaSolidDriver
 
     class DataModel {
-        SubjectMetadata[] subjects
-        SubjectManager manager
+        NodeMetadata[] nodes
+        NodeManager manager
         createMetadatas()
-        createSubjectManager()
+        createNodeManager()
         getMetadata()
     }
-    class SubjectManager {
+    class NodeManager {
         DataModel model
         QueryDriver driver
-        find(subjectClass, sources, session?)
-        save(subjectClass, source, session?)
+        find(nodeClass, sources, session?)
+        save(nodeClass, source, session?)
     }
-    class SubjectMetadata
-    class PredicateMetadata
+    class NodeMetadata
+    class EdgeMetadata
 
     namespace Global {
-        class SubjectMetadataArgs
-        class PredicateMetadataArgs
+        class NodeMetadataArgs
+        class EdgeMetadataArgs
     }
 }
 
 namespace UserCode {
     class Decorators
-    class SubjectClass
+    class NodeClass
 }
 
 Library.ComunicaSolidDriver --> Library.QueryDriver: implements
 Library.ComunicaDriver --> Library.QueryDriver: implements
 
-Library.DataModel --* "1..N" Library.SubjectMetadata
-Library.DataModel "1" *--* "1" Library.SubjectManager
-Library.SubjectManager --* "1" Library.QueryDriver
+Library.DataModel --* "1..N" Library.NodeMetadata
+Library.DataModel "1" *--* "1" Library.NodeManager
+Library.NodeManager --* "1" Library.QueryDriver
 
-Library.SubjectMetadata --> Library.Global.SubjectMetadataArgs: built from
-Library.SubjectMetadata --* "1..N" Library.PredicateMetadata
+Library.NodeMetadata --> Library.Global.NodeMetadataArgs: built from
+Library.NodeMetadata --* "1..N" Library.EdgeMetadata
 
-Library.PredicateMetadata --> Library.Global.PredicateMetadataArgs: built from
+Library.EdgeMetadata --> Library.Global.EdgeMetadataArgs: built from
 
-UserCode.SubjectClass --> UserCode.Decorators: has
-UserCode.Decorators --> Library.Global.SubjectMetadataArgs: creates
-UserCode.Decorators --> Library.Global.PredicateMetadataArgs: creates
+UserCode.NodeClass --> UserCode.Decorators: has
+UserCode.Decorators --> Library.Global.NodeMetadataArgs: creates
+UserCode.Decorators --> Library.Global.EdgeMetadataArgs: creates
 @enduml

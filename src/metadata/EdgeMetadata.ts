@@ -1,4 +1,4 @@
-export class PredicateMetadata {
+export class EdgeMetadata {
   readonly predicate: string;
   readonly type: string;
   readonly target: Function;
@@ -6,13 +6,13 @@ export class PredicateMetadata {
   readonly primary: boolean;
 
   constructor(
-    predicate: string,
+    edge: string,
     type: string,
     target: Function,
     name: string,
     primary: boolean
   ) {
-    this.predicate = predicate;
+    this.predicate = edge;
     this.type = type;
     this.target = target;
     this.name = name;

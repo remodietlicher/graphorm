@@ -1,7 +1,7 @@
-import { SubjectManager } from "../entity/SubjectManager";
+import { NodeManager } from "../entity/NodeManager";
 import { getMetadataArgsStorage } from "../globals";
-import { SubjectMetadata } from "../metadata/SubjectMetadata";
-import { SubjectMetadataBuilder } from "../metadata/SubjectMetadataBuilder";
+import { NodeMetadata } from "../metadata/NodeMetadata";
+import { NodeMetadataBuilder } from "../metadata/NodeMetadataBuilder";
 import { ObjectType } from "../util/ObjectType";
 import DataModelOptions from "./options/DataModelOptions";
 
@@ -50,7 +50,7 @@ SELECT ?topic WHERE {             <----- user input => from manager call
 User code:
 ----------
 
-@Subject(...)
+@Node(...)
 class Person {
   @Predicate(...)
   name: string
@@ -58,7 +58,7 @@ class Person {
   diplomas: string[]
 }
 
-@Subject(...)
+@Node(...)
 class Thesis {
   @Predicate(...)
   topic: string
@@ -71,36 +71,36 @@ model.manager.findAll(Thesis, {name: "Remo"})
 */
 
 export class DataModel {
-  manager: SubjectManager;
+  manager: NodeManager;
 
-  _subjectMetadatas: SubjectMetadata[];
+  _nodeMetadatas: NodeMetadata[];
   queryType: string;
-  _connectedSubjects: ObjectType<any>[];
+  _connectedNodes: ObjectType<any>[];
 
   constructor(options: DataModelOptions) {
     this.queryType = options.type;
-    this._connectedSubjects = options.subjects;
+    this._connectedNodes = options.nodes;
   }
 
-  findMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
-    return this._subjectMetadatas.find((metadata) => {
+  findMetadata(target: ObjectType<any>): NodeMetadata | undefined {
+    return this._nodeMetadatas.find((metadata) => {
       return metadata.target === target;
     });
   }
 
-  getMetadata(target: ObjectType<any>): SubjectMetadata | undefined {
+  getMetadata(target: ObjectType<any>): NodeMetadata | undefined {
     return this.findMetadata(target);
   }
 
   buildMetadatas() {
-    const metadataBuilder = new SubjectMetadataBuilder(
+    const metadataBuilder = new NodeMetadataBuilder(
       getMetadataArgsStorage(),
       this
     );
-    this._subjectMetadatas = metadataBuilder.build();
+    this._nodeMetadatas = metadataBuilder.build();
   }
 
-  createSubjectManager() {
-    this.manager = new SubjectManager(this);
+  createNodeManager() {
+    this.manager = new NodeManager(this);
   }
 }

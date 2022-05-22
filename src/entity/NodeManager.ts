@@ -4,7 +4,7 @@ import { SolidComunicaDriver } from "../driver/comunica/SolidComunicaDriver";
 import QueryDriver, { QueryDriverType } from "../driver/QueryDriver";
 import { ObjectType } from "../util/ObjectType";
 
-export class SubjectManager {
+export class NodeManager {
   readonly _model: DataModel;
   readonly _driver: QueryDriver;
 
@@ -21,18 +21,18 @@ export class SubjectManager {
     }
   }
 
-  async findAll<Subject>(
-    subjectClass: ObjectType<Subject>,
+  async findAll<Node>(
+    nodeClass: ObjectType<Node>,
     condition: any,
     sources: string[]
   ) {
-    const metadata = this._model.getMetadata(subjectClass);
+    const metadata = this._model.getMetadata(nodeClass);
 
     const queryDriver = new SolidComunicaDriver();
 
     if (metadata) {
       const result = await queryDriver.selectQuery(
-        subjectClass,
+        nodeClass,
         metadata,
         sources
       );

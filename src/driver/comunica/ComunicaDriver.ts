@@ -3,7 +3,7 @@ import {
   IQueryResultBindings,
   newEngine,
 } from "@comunica/actor-init-sparql";
-import { SubjectMetadata } from "../../metadata/SubjectMetadata";
+import { NodeMetadata } from "../../metadata/NodeMetadata";
 import { ObjectType } from "../../util/ObjectType";
 import QueryDriver from "../QueryDriver";
 import { ComunicaSourceType } from "./ComunicaSourceType";
@@ -15,14 +15,14 @@ export class ComunicaDriver implements QueryDriver {
     this._engine = newEngine();
   }
 
-  async selectQuery<Subject>(
-    subjectClass: ObjectType<Subject>,
-    metadata: SubjectMetadata,
+  async selectQuery<Node>(
+    nodeClass: ObjectType<Node>,
+    metadata: NodeMetadata,
     sources: string[]
   ) {
-    const select = metadata.predicates.map((e) => `?${e.name}`);
+    const select = metadata.edges.map((e) => `?${e.name}`);
 
-    const predicateTriplets = metadata.predicates.map(
+    const predicateTriplets = metadata.edges.map(
       (p) => `?x ${p.predicate} ?${p.name}.`
     );
 
@@ -38,7 +38,7 @@ export class ComunicaDriver implements QueryDriver {
     const bindings = await (raw as IQueryResultBindings).bindings();
 
     let out: any = {};
-    metadata.predicates.map((s) => {
+    metadata.edges.map((s) => {
       bindings.map((b) => {
         const value = b.get(`?${s.name}`).value;
         switch (s.type) {
@@ -53,29 +53,29 @@ export class ComunicaDriver implements QueryDriver {
         }
       });
     });
-    return out as Subject;
+    return out as Node;
   }
 
-  async insertQuery<Subject>(
-    subject: Subject,
-    metadata: SubjectMetadata,
+  async insertQuery<Node>(
+    node: Node,
+    metadata: NodeMetadata,
     source: ComunicaSourceType
   ) {
     const data: string[] = [];
 
-    const primaryNames = metadata.predicates
+    const primaryNames = metadata.edges
       .filter((e) => e.primary)
       .map((e) => e.name);
 
     let primaryPropertyValues: string[] = [];
-    for (const [key, value] of Object.entries(subject)) {
+    for (const [key, value] of Object.entries(node)) {
       if (primaryNames.includes(key)) primaryPropertyValues.push(value);
     }
 
-    const subjectName = primaryPropertyValues.join("");
+    const nodeName = primaryPropertyValues.join("");
 
-    for (const [key, value] of Object.entries(subject)) {
-      const predicate = metadata.predicates.find((e) => e.name === key);
+    for (const [key, value] of Object.entries(node)) {
+      const predicate = metadata.edges.find((e) => e.name === key);
 
       let rdfObject = "";
       if (predicate) {
@@ -90,7 +90,7 @@ export class ComunicaDriver implements QueryDriver {
           }
         }
         data.push(`
-        :${subjectName} ${predicate.predicate} ${rdfObject}.
+        :${nodeName} ${predicate.predicate} ${rdfObject}.
       `);
       }
     }

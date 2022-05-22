@@ -1,5 +1,5 @@
 {
-  "name": "sparql-orm",
+  "name": "graphorm",
   "version": "1.0.0",
   "description": "Prototype for a SPARQL-based ORM",
   "main": "dist/index.js",

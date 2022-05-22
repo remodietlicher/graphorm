@@ -1,12 +1,12 @@
 import { getMetadataArgsStorage } from "../globals";
-import { SubjectOptions } from "./options/SubjectOptions";
+import { NodeOptions } from "./options/NodeOptions";
 
-export function Subject(
+export function Node(
   targetObject: string,
-  options?: SubjectOptions
+  options?: NodeOptions
 ): ClassDecorator {
   return function (target: Function) {
-    getMetadataArgsStorage().subjects.push({
+    getMetadataArgsStorage().nodes.push({
       rdfObject: targetObject,
       target: target,
       options: options,

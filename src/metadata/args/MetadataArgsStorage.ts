@@ -1,7 +1,7 @@
-import { PredicateMetadataArgs } from "./PredicateMetadataArgs";
-import { SubjectMetadataArgs } from "./SubjectMetadataArgs";
+import { EdgeMetadataArgs } from "./EdgeMetadataArgs";
+import { NodeMetadataArgs } from "./NodeMetadataArgs";
 
 export class MetadataArgsStorage {
-  predicates: PredicateMetadataArgs[] = [];
-  subjects: SubjectMetadataArgs[] = [];
+  edges: EdgeMetadataArgs[] = [];
+  nodes: NodeMetadataArgs[] = [];
 }

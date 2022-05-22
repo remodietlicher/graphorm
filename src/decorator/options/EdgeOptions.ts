@@ -1,6 +1,6 @@
-export interface PredicateOptions {
+export interface EdgeOptions {
   primary?: boolean;
-  subject?: string;
+  node?: string;
   object?: string;
   nullable?: boolean;
 }
