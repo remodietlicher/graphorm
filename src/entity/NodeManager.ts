@@ -1,7 +1,7 @@
 import { DataModel } from "../data-model/DataModel";
 import { ComunicaDriver } from "../driver/comunica/ComunicaDriver";
-import { SolidComunicaDriver } from "../driver/comunica/SolidComunicaDriver";
 import QueryDriver, { QueryDriverType } from "../driver/QueryDriver";
+import { QueryBuilder } from "../query-builder/QueryBuilder";
 import { ObjectType } from "../util/ObjectType";
 
 export class NodeManager {
@@ -15,9 +15,6 @@ export class NodeManager {
       case "comunica":
         this._driver = new ComunicaDriver();
         break;
-      case "comunica-solid":
-        this._driver = new SolidComunicaDriver();
-        break;
     }
   }
 
@@ -28,25 +25,27 @@ export class NodeManager {
   ) {
     const metadata = this._model.getMetadata(nodeClass);
 
-    const queryDriver = new SolidComunicaDriver();
+    const queryBuilder = new QueryBuilder();
 
     if (metadata) {
-      const result = await queryDriver.selectQuery(
-        nodeClass,
+      const query = queryBuilder.buildSelectQuery(metadata);
+      const result = await this._driver.runSelectQuery(
+        query,
         metadata,
         sources
       );
-      return result;
+      return result as Node;
     }
   }
 
-  async save<Subject>(subject: Subject, source: string) {
+  async save<Node>(node: Node, source: string) {
     const metadata = this._model.getMetadata(
-      Object.getPrototypeOf(subject).constructor
+      Object.getPrototypeOf(node).constructor
     );
-    const queryDriver = new SolidComunicaDriver();
+    const queryBuilder = new QueryBuilder();
     if (metadata) {
-      const result = await queryDriver.insertQuery(subject, metadata, source);
+      const query = queryBuilder.buildInsertQuery(node, metadata);
+      const result = await this._driver.runInsertQuery(query, source);
     }
   }
 }

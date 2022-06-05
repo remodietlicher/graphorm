@@ -5,7 +5,7 @@ describe("From the globally collected metadata args, concrete Metadata objects a
   it("should create node metadata objects", () => {
     const p = new Person();
     const model = new DataModel({
-      type: "comunica-solid",
+      type: "comunica",
       nodes: [Person],
     });
     model.buildMetadatas();

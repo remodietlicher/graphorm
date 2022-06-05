@@ -1,4 +1,4 @@
 export interface ComunicaSourceType {
-  type: string;
+  type?: string;
   value: string;
 }

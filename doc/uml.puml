@@ -7,7 +7,6 @@ namespace Library {
         selectQuery()
     }
     class ComunicaDriver
-    class ComunicaSolidDriver
 
     class DataModel {
         NodeMetadata[] nodes
@@ -36,7 +35,6 @@ namespace UserCode {
     class NodeClass
 }
 
-Library.ComunicaSolidDriver --> Library.QueryDriver: implements
 Library.ComunicaDriver --> Library.QueryDriver: implements
 
 Library.DataModel --* "1..N" Library.NodeMetadata
