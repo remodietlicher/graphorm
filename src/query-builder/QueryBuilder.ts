@@ -7,12 +7,24 @@ export class QueryBuilder {
   buildSelectQuery(metadata: NodeMetadata, options?: QueryOptions) {
     const select = metadata.edges.map((e) => `?${e.name}`);
 
-    const triplets = metadata.edges.map((p) => `?x ${p.edge} ?${p.name}.`);
+    const triplets = metadata.edges.map((e) => `?x ${e.edge} ?${e.name}.`);
+
+    let condition: string[] = [];
+    if (options?.condition) {
+      condition = metadata.edges.map((e) => {
+        let o = "";
+        if (Object.keys(options.condition).includes(e.name)) {
+          o = `?x ${e.edge} "${options.condition[e.name]}".`;
+        }
+        return o;
+      });
+    }
 
     const query = `
       SELECT ${select.join(" ")} WHERE {
         ?x a ${metadata.rdfObject}.
         ${triplets.join("\n")}
+        ${condition.join("\n")}
       }
     `;
 
@@ -59,7 +71,7 @@ export class QueryBuilder {
     }
 
     const query = `
-      PREFIX : <${options ? options.baseIRI : ""}#>
+      PREFIX : <${options?.baseIRI ? options.baseIRI : ""}#>
       INSERT DATA {
         ${data.join("\n")}
       }

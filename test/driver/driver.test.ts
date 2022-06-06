@@ -30,8 +30,8 @@ describe("Executing a query should produce the correct SPARQL query string", () 
 
     const results: Person[] | undefined = await model.manager.findAll(
       Person,
-      {},
-      [store]
+      [store],
+      { condition: { lastName: "Dietlicher" } }
     );
 
     if (results) {

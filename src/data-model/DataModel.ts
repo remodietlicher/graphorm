@@ -36,7 +36,7 @@ SELECT ?topic ?supervisor ?associatedDiploma WHERE {
 
 Combined Thesis + Person:
 -------------------------
-SELECT ?topic WHERE {             <----- user input => from manager call
+SELECT ?topic ?diploma WHERE {    <----- user input => from manager call
   ?x1 a Thesis;
       hasTopic ?topic;
       partOf ?diploma.            <----- ?diploma   => from metadata
@@ -44,7 +44,6 @@ SELECT ?topic WHERE {             <----- user input => from manager call
   ?x2 a Person;
       name ?name;                 <----- "Remo"     => from manager call
       hasObtained ?diploma;
-  ?diploma a Diploma.
 }
 
 User code:

@@ -12,3 +12,9 @@
     foaf:firstName "Meret";
     foaf:lastName "Dietlicher";
     foaf:age 32.
+
+:MaxMuster
+    a foaf:Person;
+    foaf:firstName "Max";
+    foaf:lastName "Muster";
+    foaf:age 72.

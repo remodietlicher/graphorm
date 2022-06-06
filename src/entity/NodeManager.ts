@@ -8,9 +8,12 @@ import { ObjectType } from "../util/ObjectType";
 export class NodeManager {
   readonly _model: DataModel;
   readonly _driver: QueryDriver;
+  readonly _queryBuilder: QueryBuilder;
 
   constructor(model: DataModel) {
     this._model = model;
+
+    this._queryBuilder = new QueryBuilder();
 
     switch (this._model.queryType) {
       case "comunica":
@@ -21,16 +24,13 @@ export class NodeManager {
 
   async findAll<Node>(
     nodeClass: ObjectType<Node>,
-    condition: any,
     sources: any,
     options?: QueryOptions
   ) {
     const metadata = this._model.getMetadata(nodeClass);
 
-    const queryBuilder = new QueryBuilder();
-
     if (metadata) {
-      const query = queryBuilder.buildSelectQuery(metadata, options);
+      const query = this._queryBuilder.buildSelectQuery(metadata, options);
       const result = await this._driver.runSelectQuery(
         query,
         metadata,
@@ -45,9 +45,12 @@ export class NodeManager {
     const metadata = this._model.getMetadata(
       Object.getPrototypeOf(node).constructor
     );
-    const queryBuilder = new QueryBuilder();
     if (metadata) {
-      const query = queryBuilder.buildInsertQuery(node, metadata, options);
+      const query = this._queryBuilder.buildInsertQuery(
+        node,
+        metadata,
+        options
+      );
       const result = await this._driver.runInsertQuery(query, source);
     }
   }
