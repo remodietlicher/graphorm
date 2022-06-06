@@ -8,13 +8,9 @@ abstract class QueryDriver {
     query: string,
     metadata: NodeMetadata,
     sources: any,
-    queryOptions?: QueryOptions
+    options?: QueryOptions
   );
-  abstract runInsertQuery(
-    query: string,
-    source: any,
-    queryOptions?: QueryOptions
-  );
+  abstract runInsertQuery(query: string, source: any, options?: QueryOptions);
 }
 
 export default QueryDriver;

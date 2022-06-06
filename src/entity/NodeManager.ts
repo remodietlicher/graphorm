@@ -23,31 +23,31 @@ export class NodeManager {
     nodeClass: ObjectType<Node>,
     condition: any,
     sources: any,
-    queryOptions?: QueryOptions
+    options?: QueryOptions
   ) {
     const metadata = this._model.getMetadata(nodeClass);
 
     const queryBuilder = new QueryBuilder();
 
     if (metadata) {
-      const query = queryBuilder.buildSelectQuery(metadata, queryOptions);
+      const query = queryBuilder.buildSelectQuery(metadata, options);
       const result = await this._driver.runSelectQuery(
         query,
         metadata,
         sources,
-        queryOptions
+        options
       );
       return result as Node;
     }
   }
 
-  async save<Node>(node: Node, source: any, queryOptions?: QueryOptions) {
+  async save<Node>(node: Node, source: any, options?: QueryOptions) {
     const metadata = this._model.getMetadata(
       Object.getPrototypeOf(node).constructor
     );
     const queryBuilder = new QueryBuilder();
     if (metadata) {
-      const query = queryBuilder.buildInsertQuery(node, metadata, queryOptions);
+      const query = queryBuilder.buildInsertQuery(node, metadata, options);
       const result = await this._driver.runInsertQuery(query, source);
     }
   }

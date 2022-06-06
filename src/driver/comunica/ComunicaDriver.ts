@@ -17,12 +17,12 @@ export class ComunicaDriver implements QueryDriver {
     query: string,
     metadata: NodeMetadata,
     sources: any,
-    queryOptions?: QueryOptions
+    options?: QueryOptions
   ) {
     const bindingStream = await this._engine.queryBindings(query, {
       sources: sources,
       "@comunica/actor-http-inrupt-solid-client-authn:session":
-        queryOptions?.session,
+        options?.session,
     });
 
     const bindings = await bindingStream.toArray();
@@ -45,16 +45,12 @@ export class ComunicaDriver implements QueryDriver {
     return out;
   }
 
-  async runInsertQuery(
-    query: string,
-    source: any,
-    queryOptions?: QueryOptions
-  ) {
+  async runInsertQuery(query: string, source: any, options?: QueryOptions) {
     console.log(query);
     await this._engine.queryVoid(query, {
       sources: [source],
       "@comunica/actor-http-inrupt-solid-client-authn:session":
-        queryOptions?.session,
+        options?.session,
     });
   }
 }
