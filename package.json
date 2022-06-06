@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@comunica/query-sparql-solid": "^2.1.0",
+    "n3": "^1.16.2",
     "reflect-metadata": "^0.1.13"
   }
 }

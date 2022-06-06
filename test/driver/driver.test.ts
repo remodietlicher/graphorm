@@ -1,20 +1,25 @@
 import { DataModel } from "../../src/data-model/DataModel";
 import { Person } from "./node/Person";
-import { start } from "molid";
+import { Store, Parser } from "n3";
+import fs from "fs";
 
 import path from "path";
 
 describe("Executing a query should produce the correct SPARQL query string", () => {
-  let molid;
+  let store;
   beforeAll(async () => {
-    molid = await start({
-      dataDir: path.join(__dirname, "../data/molid"),
+    store = new Store();
+
+    // read text from file
+    let ttlSrc = path.join(__dirname, "../data/test.ttl");
+    const ttlFile = fs.readFileSync(ttlSrc, "utf8");
+    const parser = new Parser();
+    parser.parse(ttlFile, (err, quad, prefixes) => {
+      if (quad) store.addQuad(quad);
     });
   });
-  afterAll(async () => {
-    await molid.stop();
-  });
-  it("should produce correct SPARQL syntax for node class", async () => {
+  afterAll(async () => {});
+  it("should produce correct SPARQL syntax for node class with N3 store", async () => {
     // const p = new Person();
     const model = new DataModel({
       type: "comunica",
@@ -25,7 +30,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     model.createNodeManager();
 
     const remo: Person | undefined = await model.manager.findAll(Person, {}, [
-      molid.uri("/profile/card"),
+      store,
     ]);
 
     if (remo) {
@@ -51,7 +56,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   //   p.lastName = "Muster";
   //   p.age = 89;
 
-  //   await model.manager.save(p, "https://remo.solid.tschenten.ch/profile/card");
+  //   await model.manager.save(p, store);
   //   console.log("done");
   // });
 });
