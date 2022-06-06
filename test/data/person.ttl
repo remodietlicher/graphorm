@@ -1,8 +1,14 @@
 @prefix : <https://example.org/people#>.
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
-:me
+:RemoDietlicher
     a foaf:Person;
     foaf:firstName "Remo";
     foaf:lastName "Dietlicher";
     foaf:age 31.
+
+:MeretDietlicher
+    a foaf:Person;
+    foaf:firstName "Meret";
+    foaf:lastName "Dietlicher";
+    foaf:age 32.

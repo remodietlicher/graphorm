@@ -37,7 +37,7 @@ export class NodeManager {
         sources,
         options
       );
-      return result as Node;
+      return result as Node[];
     }
   }
 

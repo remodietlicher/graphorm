@@ -11,7 +11,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     store = new Store();
 
     // read text from file
-    let ttlSrc = path.join(__dirname, "../data/test.ttl");
+    let ttlSrc = path.join(__dirname, "../data/person.ttl");
     const ttlFile = fs.readFileSync(ttlSrc, "utf8");
     const parser = new Parser();
     parser.parse(ttlFile, (err, quad, prefixes) => {
@@ -20,7 +20,6 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   });
   afterAll(async () => {});
   it("should produce correct SPARQL syntax for node class with N3 store", async () => {
-    // const p = new Person();
     const model = new DataModel({
       type: "comunica",
       nodes: [Person],
@@ -29,17 +28,23 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     model.buildMetadatas();
     model.createNodeManager();
 
-    const remo: Person | undefined = await model.manager.findAll(Person, {}, [
-      store,
-    ]);
+    const results: Person[] | undefined = await model.manager.findAll(
+      Person,
+      {},
+      [store]
+    );
 
-    if (remo) {
+    if (results) {
+      const remo = results[0];
       expect(remo.firstName).toBe("Remo");
       expect(remo.lastName).toBe("Dietlicher");
       expect(remo.age).toBe(31);
-      // expect(remo instanceof Person).toBe(true); // False, but IDE thinks this works...
+      const meret = results[1];
+      expect(meret.firstName).toBe("Meret");
+      expect(meret.lastName).toBe("Dietlicher");
+      expect(meret.age).toBe(32);
     } else {
-      expect("remo is undefined").toBe("never");
+      expect("results are undefined").toBe("never");
     }
   });
   it("should produce a correct SPARQL insert data query for node class", async () => {

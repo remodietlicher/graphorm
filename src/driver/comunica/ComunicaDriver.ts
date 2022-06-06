@@ -1,9 +1,6 @@
-import { getDefaultSession } from "@inrupt/solid-client-authn-browser";
 import { NodeMetadata } from "../../metadata/NodeMetadata";
 import QueryDriver from "../QueryDriver";
-import { ComunicaSourceType } from "./ComunicaSourceType";
 import { QueryEngine } from "@comunica/query-sparql-solid";
-import type * as RDF from "@rdfjs/types";
 import { QueryOptions } from "../../query-builder/QueryOptions";
 
 export class ComunicaDriver implements QueryDriver {
@@ -26,21 +23,23 @@ export class ComunicaDriver implements QueryDriver {
     });
 
     const bindings = await bindingStream.toArray();
-    let out: any = {};
-    metadata.edges.map((s) => {
-      bindings.map((b) => {
+    let out: any[] = [];
+    bindings.map((b) => {
+      let node: any = {};
+      metadata.edges.map((s) => {
         const value = b.get(`${s.name}`)!.value;
         switch (s.type) {
           case "String": {
-            out[s.name] = value;
+            node[s.name] = value;
             break;
           }
           case "Number": {
-            out[s.name] = +value;
+            node[s.name] = +value;
             break;
           }
         }
       });
+      out.push(node);
     });
     return out;
   }

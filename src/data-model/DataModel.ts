@@ -39,7 +39,7 @@ Combined Thesis + Person:
 SELECT ?topic WHERE {             <----- user input => from manager call
   ?x1 a Thesis;
       hasTopic ?topic;
-      partOf ?associatedDiploma.  <----- ?diploma   => from metadata
+      partOf ?diploma.            <----- ?diploma   => from metadata
 
   ?x2 a Person;
       name ?name;                 <----- "Remo"     => from manager call
