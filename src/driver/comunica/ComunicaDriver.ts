@@ -48,12 +48,11 @@ export class ComunicaDriver implements QueryDriver {
 
   async runInsertQuery(query: string, source: string | ComunicaSourceType) {
     console.log(query);
-    const result = await this._engine.query(query, {
+    await this._engine.queryVoid(query, {
       sources: [source],
       "@comunica/actor-http-inrupt-solid-client-authn:session": this._isBrowser
         ? getDefaultSession()
         : undefined,
     });
-    await (result as any).updateResult;
   }
 }

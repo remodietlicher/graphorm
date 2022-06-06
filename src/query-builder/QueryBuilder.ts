@@ -1,9 +1,10 @@
 import { NodeMetadata } from "../metadata/NodeMetadata";
+import { QueryBuilderOptions } from "./QueryBuilderOptions";
 
 export class QueryBuilder {
   constructor() {}
 
-  buildSelectQuery(metadata: NodeMetadata) {
+  buildSelectQuery(metadata: NodeMetadata, options?: QueryBuilderOptions) {
     const select = metadata.edges.map((e) => `?${e.name}`);
 
     const triplets = metadata.edges.map((p) => `?x ${p.edge} ?${p.name}.`);
@@ -18,7 +19,11 @@ export class QueryBuilder {
     return query;
   }
 
-  buildInsertQuery<Node>(node: Node, metadata: NodeMetadata) {
+  buildInsertQuery<Node>(
+    node: Node,
+    metadata: NodeMetadata,
+    options?: QueryBuilderOptions
+  ) {
     const data: string[] = [];
 
     const primaryNames = metadata.edges
@@ -54,7 +59,7 @@ export class QueryBuilder {
     }
 
     const query = `
-      PREFIX : <#>
+      PREFIX : <${options ? options.baseIRI : ""}#>
       INSERT DATA {
         ${data.join("\n")}
       }
