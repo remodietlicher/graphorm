@@ -4,26 +4,25 @@ import QueryDriver from "../QueryDriver";
 import { ComunicaSourceType } from "./ComunicaSourceType";
 import { QueryEngine } from "@comunica/query-sparql-solid";
 import type * as RDF from "@rdfjs/types";
+import { QueryOptions } from "../../query-builder/QueryOptions";
 
 export class ComunicaDriver implements QueryDriver {
   private _engine: QueryEngine;
-  private _isBrowser: boolean;
 
   constructor() {
     this._engine = new QueryEngine();
-    this._isBrowser = typeof window != "undefined";
   }
 
   async runSelectQuery(
     query: string,
     metadata: NodeMetadata,
-    sources: string[] | ComunicaSourceType[] | RDF.Source[]
+    sources: any,
+    queryOptions?: QueryOptions
   ) {
     const bindingStream = await this._engine.queryBindings(query, {
-      sources: sources as any,
-      "@comunica/actor-http-inrupt-solid-client-authn:session": this._isBrowser
-        ? getDefaultSession()
-        : undefined,
+      sources: sources,
+      "@comunica/actor-http-inrupt-solid-client-authn:session":
+        queryOptions?.session,
     });
 
     const bindings = await bindingStream.toArray();
@@ -46,13 +45,16 @@ export class ComunicaDriver implements QueryDriver {
     return out;
   }
 
-  async runInsertQuery(query: string, source: string | ComunicaSourceType) {
+  async runInsertQuery(
+    query: string,
+    source: any,
+    queryOptions?: QueryOptions
+  ) {
     console.log(query);
     await this._engine.queryVoid(query, {
       sources: [source],
-      "@comunica/actor-http-inrupt-solid-client-authn:session": this._isBrowser
-        ? getDefaultSession()
-        : undefined,
+      "@comunica/actor-http-inrupt-solid-client-authn:session":
+        queryOptions?.session,
     });
   }
 }

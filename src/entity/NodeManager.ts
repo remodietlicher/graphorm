@@ -1,8 +1,8 @@
 import { DataModel } from "../data-model/DataModel";
 import { ComunicaDriver } from "../driver/comunica/ComunicaDriver";
-import QueryDriver, { QueryDriverType } from "../driver/QueryDriver";
+import QueryDriver from "../driver/QueryDriver";
 import { QueryBuilder } from "../query-builder/QueryBuilder";
-import { QueryBuilderOptions } from "../query-builder/QueryBuilderOptions";
+import { QueryOptions } from "../query-builder/QueryOptions";
 import { ObjectType } from "../util/ObjectType";
 
 export class NodeManager {
@@ -23,7 +23,7 @@ export class NodeManager {
     nodeClass: ObjectType<Node>,
     condition: any,
     sources: any,
-    queryOptions?: QueryBuilderOptions
+    queryOptions?: QueryOptions
   ) {
     const metadata = this._model.getMetadata(nodeClass);
 
@@ -34,17 +34,14 @@ export class NodeManager {
       const result = await this._driver.runSelectQuery(
         query,
         metadata,
-        sources
+        sources,
+        queryOptions
       );
       return result as Node;
     }
   }
 
-  async save<Node>(
-    node: Node,
-    source: any,
-    queryOptions?: QueryBuilderOptions
-  ) {
+  async save<Node>(node: Node, source: any, queryOptions?: QueryOptions) {
     const metadata = this._model.getMetadata(
       Object.getPrototypeOf(node).constructor
     );
