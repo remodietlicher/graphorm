@@ -1,5 +1,5 @@
 import { NodeMetadata } from "../metadata/NodeMetadata";
-import { QueryOptions } from "../query-builder/QueryOptions";
+import { QueryOptions } from "../query/QueryOptions";
 
 export type QueryDriverType = "comunica";
 

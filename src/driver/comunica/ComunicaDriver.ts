@@ -1,7 +1,7 @@
 import { NodeMetadata } from "../../metadata/NodeMetadata";
 import QueryDriver from "../QueryDriver";
 import { QueryEngine } from "@comunica/query-sparql-solid";
-import { QueryOptions } from "../../query-builder/QueryOptions";
+import { QueryOptions } from "../../query/QueryOptions";
 
 export class ComunicaDriver implements QueryDriver {
   private _engine: QueryEngine;
