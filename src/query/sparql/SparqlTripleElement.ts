@@ -1,7 +1,3 @@
-import {
-  PreconditionFailedHttpError,
-  SparqlPatchModesExtractor,
-} from "@solid/community-server";
 import SparqlElement from "./SparqlElement";
 import SparqlLeafElement from "./SparqlLeafElement";
 import { typeToConverter } from "./SparqlVariableConverter";
