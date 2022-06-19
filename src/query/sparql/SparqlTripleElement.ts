@@ -4,13 +4,13 @@ import {
 } from "@solid/community-server";
 import SparqlElement from "./SparqlElement";
 import SparqlLeafElement from "./SparqlLeafElement";
-import { SparqlLiteralConverter } from "./SparqlVariableConverter";
+import { typeToConverter } from "./SparqlVariableConverter";
 import SparqlVisitor from "./SparqlVisitor";
 
 interface SparqlTripleElementOptions {
-  subjectConverter?: (e: string) => string;
-  predicateConverter?: (e: string) => string;
-  objectConverter?: (e: string) => string;
+  subjectType?: string;
+  predicateType?: string;
+  objectType?: string;
 }
 
 export default class SparqlTripleElement
@@ -34,10 +34,15 @@ export default class SparqlTripleElement
     this._subject = subject;
     this._predicate = predicate;
     this._object = object;
-    this.subjectConverter = options?.subjectConverter || SparqlLiteralConverter;
-    this.predicateConverter =
-      options?.predicateConverter || SparqlLiteralConverter;
-    this.objectConverter = options?.objectConverter || SparqlLiteralConverter;
+    this.subjectConverter = typeToConverter.get(
+      options?.subjectType || "Literal"
+    );
+    this.predicateConverter = typeToConverter.get(
+      options?.predicateType || "Literal"
+    );
+    this.objectConverter = typeToConverter.get(
+      options?.objectType || "Literal"
+    );
   }
 
   getTriple(): string[] {

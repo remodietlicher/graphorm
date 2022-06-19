@@ -1,10 +1,6 @@
 import SparqlSelectElement from "../../src/query/sparql/SparqlSelectElement";
 import SparqlToStringVisitor from "../../src/query/sparql/SparqlToStringVisitor";
 import SparqlTripleElement from "../../src/query/sparql/SparqlTripleElement";
-import {
-  SparqlLiteralConverter,
-  SparqlStringConverter,
-} from "../../src/query/sparql/SparqlVariableConverter";
 
 describe("The query builder should produce a valid SPARQL query string", () => {
   it("Should produce a triple pattern", async () => {
@@ -14,7 +10,7 @@ describe("The query builder should produce a valid SPARQL query string", () => {
   });
   it("Should produce a triple pattern with literals", async () => {
     const triple = new SparqlTripleElement("ex:s", "ex:p", "Remo", {
-      objectConverter: SparqlStringConverter,
+      objectType: "String",
     });
     const query = triple.acceptToString(new SparqlToStringVisitor());
     expect(query).toBe('ex:s ex:p "Remo".');
