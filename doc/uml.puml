@@ -35,9 +35,9 @@ namespace UserCode {
     class NodeClass
 }
 
-Library.ComunicaDriver --> Library.QueryDriver: implements
+Library.ComunicaDriver --|> Library.QueryDriver
 
-Library.DataModel --* "1..N" Library.NodeMetadata
+Library.DataModel --> "1..N" Library.NodeMetadata
 Library.DataModel "1" *--* "1" Library.NodeManager
 Library.NodeManager --* "1" Library.QueryDriver
 

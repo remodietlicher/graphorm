@@ -1,7 +1,7 @@
 import SparqlElement from "./SparqlElement";
 import SparqlVisitor from "./SparqlVisitor";
 
-export default abstract class SparqlLeafElements implements SparqlElement {
+export default abstract class SparqlLeafElement implements SparqlElement {
   addChild(child: SparqlElement): void {
     console.log("cannot add child to leaf element");
   }

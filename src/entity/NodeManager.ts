@@ -51,7 +51,7 @@ export class NodeManager {
         metadata,
         options
       );
-      const result = await this._driver.runInsertQuery(query, source);
+      await this._driver.runInsertQuery(query, source);
     }
   }
 }
