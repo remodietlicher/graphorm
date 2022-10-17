@@ -1,1 +1,1 @@
-export type ObjectType<T> = { new (): T };
+export type ObjectType<T> = { new (): T } | Function;

@@ -17,6 +17,14 @@ export class QueryBuilder {
     });
     const select = new SparqlSelectElement(selectValues);
 
+    // add rdf type
+    const rdfType = new SparqlTripleElement(
+      "?x",
+      "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+      metadata.rdfObject
+    );
+    select.addChild(rdfType);
+
     // construct triples that define for node "x" with given edges/members
     const triples = metadata.edges.map(
       (e) => new SparqlTripleElement("?x", e.edge, `?${e.name}`)
@@ -71,6 +79,14 @@ export class QueryBuilder {
     const nodeName = `:${primaryPropertyValues.join("")}`;
 
     const insert = new SparqlInsertElement();
+
+    // add rdf type
+    const rdfType = new SparqlTripleElement(
+      nodeName,
+      "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+      metadata.rdfObject
+    );
+    insert.addChild(rdfType);
 
     // generate sparql triple elements for each member/edge
     for (const [key, value] of Object.entries(node)) {

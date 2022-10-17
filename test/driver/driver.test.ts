@@ -72,7 +72,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
         null,
         null
       )
-    ).toBe(3);
+    ).toBe(4);
     expect(
       store.getObjects(
         "https://example.org/people#HansMuster",
