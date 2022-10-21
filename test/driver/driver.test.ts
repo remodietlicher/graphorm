@@ -4,10 +4,16 @@ import { Store, Parser } from "n3";
 import fs from "fs";
 
 import path from "path";
+import { Dog } from "./node/Dog";
 
-describe("Executing a query should produce the correct SPARQL query string", () => {
+describe("The node manager", () => {
   let store: Store;
+  let model: DataModel;
   beforeAll(async () => {
+    model = new DataModel({
+      type: "comunica",
+    });
+
     store = new Store();
 
     // read text from file
@@ -19,11 +25,7 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     });
   });
   afterAll(async () => {});
-  it("should produce correct SPARQL syntax for node class with N3 store", async () => {
-    const model = new DataModel({
-      type: "comunica",
-    });
-
+  it("should find a single level class by object type within the N3 store", async () => {
     const results: Person[] | undefined = await model.manager.findAll(
       Person,
       [store],
@@ -43,12 +45,8 @@ describe("Executing a query should produce the correct SPARQL query string", () 
       expect("results are undefined").toBe("never");
     }
   });
-  it("should produce a correct SPARQL insert data query for node class", async () => {
+  it("should save a single level class data in the N3 store", async () => {
     const p = new Person();
-    const model = new DataModel({
-      type: "comunica",
-    });
-
     p.firstName = "Hans";
     p.lastName = "Muster";
     p.age = 89;
@@ -86,5 +84,22 @@ describe("Executing a query should produce the correct SPARQL query string", () 
         null
       )[0].value
     ).toBe(p.age.toString());
+  });
+  it("should find a multilevel class of depth 1 within the N3 store", async () => {
+    const results: Dog[] | undefined = await model.manager.findAll(
+      Dog,
+      [store],
+      { condition: { name: "Bello" } }
+    );
+
+    if (results && results.length > 0) {
+      const bello = results[0];
+      expect(bello.name).toBe("Remo");
+      expect(bello.owner.firstName).toBe("Remo");
+      expect(bello.owner.lastName).toBe("Dietlicher");
+      expect(bello.owner.age).toBe(31);
+    } else {
+      expect("results are undefined").toBe("never");
+    }
   });
 });

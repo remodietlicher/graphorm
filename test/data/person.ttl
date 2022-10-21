@@ -1,5 +1,6 @@
 @prefix : <https://example.org/people#>.
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dog: <http://dbpedia.org/ontology/>.
 
 :RemoDietlicher
     a foaf:Person;
@@ -18,3 +19,8 @@
     foaf:firstName "Max";
     foaf:lastName "Muster";
     foaf:age 72.
+
+:Bello
+    a dbo:Dog;
+    foaf:name "Bello";
+    dbo:owner :RemoDietlicher.
