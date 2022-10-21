@@ -6,9 +6,8 @@ describe("From the globally collected metadata args, concrete Metadata objects a
     const p = new Person();
     const model = new DataModel({
       type: "comunica",
-      nodes: [Person],
     });
-    expect(model._nodeMetadatas[0].edges[0].name).toBe("name");
-    expect(model._nodeMetadatas[0].edges[1].name).toBe("age");
+    expect(model.getMetadata(Person)?.edges[0].name).toBe("name");
+    expect(model.getMetadata(Person)?.edges[1].name).toBe("age");
   });
 });

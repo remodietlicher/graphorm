@@ -72,26 +72,20 @@ model.manager.findAll(Thesis, {name: "Remo"})
 export class DataModel {
   manager: NodeManager;
 
-  _nodeMetadatas: NodeMetadata[];
-  queryType: string;
-  _connectedNodes: ObjectType<any>[];
+  private _nodeMetadatas: NodeMetadata[];
+  public queryType: string;
 
   constructor(options: DataModelOptions) {
     this.queryType = options.type;
-    this._connectedNodes = options.nodes;
 
     this.buildMetadatas();
     this.createNodeManager();
   }
 
-  findMetadata(target: ObjectType<any>): NodeMetadata | undefined {
+  getMetadata(target: ObjectType<any>): NodeMetadata | undefined {
     return this._nodeMetadatas.find((metadata) => {
       return metadata.target === target;
     });
-  }
-
-  getMetadata(target: ObjectType<any>): NodeMetadata | undefined {
-    return this.findMetadata(target);
   }
 
   buildMetadatas() {

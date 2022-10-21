@@ -22,7 +22,6 @@ describe("Executing a query should produce the correct SPARQL query string", () 
   it("should produce correct SPARQL syntax for node class with N3 store", async () => {
     const model = new DataModel({
       type: "comunica",
-      nodes: [Person],
     });
 
     const results: Person[] | undefined = await model.manager.findAll(
@@ -48,7 +47,6 @@ describe("Executing a query should produce the correct SPARQL query string", () 
     const p = new Person();
     const model = new DataModel({
       type: "comunica",
-      nodes: [Person],
     });
 
     p.firstName = "Hans";
