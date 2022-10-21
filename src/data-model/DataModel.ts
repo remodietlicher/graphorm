@@ -79,6 +79,9 @@ export class DataModel {
   constructor(options: DataModelOptions) {
     this.queryType = options.type;
     this._connectedNodes = options.nodes;
+
+    this.buildMetadatas();
+    this.createNodeManager();
   }
 
   findMetadata(target: ObjectType<any>): NodeMetadata | undefined {

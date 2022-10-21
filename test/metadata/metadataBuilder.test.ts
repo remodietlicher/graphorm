@@ -8,7 +8,6 @@ describe("From the globally collected metadata args, concrete Metadata objects a
       type: "comunica",
       nodes: [Person],
     });
-    model.buildMetadatas();
     expect(model._nodeMetadatas[0].edges[0].name).toBe("name");
     expect(model._nodeMetadatas[0].edges[1].name).toBe("age");
   });

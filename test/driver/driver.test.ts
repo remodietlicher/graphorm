@@ -25,9 +25,6 @@ describe("Executing a query should produce the correct SPARQL query string", () 
       nodes: [Person],
     });
 
-    model.buildMetadatas();
-    model.createNodeManager();
-
     const results: Person[] | undefined = await model.manager.findAll(
       Person,
       [store],
@@ -53,9 +50,6 @@ describe("Executing a query should produce the correct SPARQL query string", () 
       type: "comunica",
       nodes: [Person],
     });
-
-    model.buildMetadatas();
-    model.createNodeManager();
 
     p.firstName = "Hans";
     p.lastName = "Muster";
