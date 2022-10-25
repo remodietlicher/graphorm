@@ -85,21 +85,22 @@ describe("The node manager", () => {
       )[0].value
     ).toBe(p.age.toString());
   });
-  it("should find a multilevel class of depth 1 within the N3 store", async () => {
-    const results: Dog[] | undefined = await model.manager.findAll(
-      Dog,
-      [store],
-      { condition: { name: "Bello" } }
-    );
+  it.todo(
+    "should find a multilevel class of depth 1 within the N3 store"
+    // async () => {
+    //   const results = await model.manager.findAll(Dog, [store], {
+    //     condition: { name: "Bello" },
+    //   });
 
-    if (results && results.length > 0) {
-      const bello = results[0];
-      expect(bello.name).toBe("Remo");
-      expect(bello.owner.firstName).toBe("Remo");
-      expect(bello.owner.lastName).toBe("Dietlicher");
-      expect(bello.owner.age).toBe(31);
-    } else {
-      expect("results are undefined").toBe("never");
-    }
-  });
+    //   if (results && results.length > 0) {
+    //     const bello = results[0];
+    //     expect(bello.name).toBe("Remo");
+    //     expect(bello.owner.firstName).toBe("Remo");
+    //     expect(bello.owner.lastName).toBe("Dietlicher");
+    //     expect(bello.owner.age).toBe(31);
+    //   } else {
+    //     expect("results are undefined").toBe("never");
+    //   }
+    // }
+  );
 });
