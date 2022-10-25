@@ -1,8 +1,8 @@
 import { DataModel } from "../data-model/DataModel";
 import { ComunicaDriver } from "../driver/comunica/ComunicaDriver";
 import QueryDriver from "../driver/QueryDriver";
-import { QueryBuilder } from "../query/QueryBuilder";
-import { QueryOptions } from "../query/QueryOptions";
+import { QueryBuilder } from "../sparql-query/QueryBuilder";
+import { QueryOptions } from "../sparql-query/QueryOptions";
 import { ObjectType } from "../util/ObjectType";
 
 export class NodeManager {

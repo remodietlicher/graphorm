@@ -1,19 +1,18 @@
-import Query from "../Query";
-import SparqlContainerElement from "./SparqlContainerElement";
-import SparqlElement from "./SparqlElement";
-import SparqlSelectElement from "./SparqlSelectElement";
-import SparqlToStringVisitor from "./SparqlToStringVisitor";
+import ContainerElement from "./elements/ContainerElement";
+import QueryElement from "./elements/QueryElement";
+import SelectElement from "./elements/SelectElement";
+import QueryToStringVisitor from "./visitors/QueryToStringVisitor";
 
-export default class SparqlQuery<Node> implements Query {
-  private _root: SparqlContainerElement;
+export default class Query<Node> {
+  private _root: ContainerElement;
   private readonly _type: Node;
 
   constructor() {
-    this._root = new SparqlContainerElement();
+    this._root = new ContainerElement();
   }
 
   toString() {
-    return this._root.acceptToString(new SparqlToStringVisitor());
+    return this._root.acceptToString(new QueryToStringVisitor());
   }
 
   toType<Node>(bindings: any): Node[] {
@@ -22,11 +21,11 @@ export default class SparqlQuery<Node> implements Query {
     // get all select elements in query
     const filter = this._root
       .getChildren()
-      .filter((c) => c instanceof SparqlSelectElement);
+      .filter((c) => c instanceof SelectElement);
 
     // there should only be a single one, else throw error
     if (filter.length === 1) {
-      const select = filter[0] as SparqlSelectElement;
+      const select = filter[0] as SelectElement;
 
       // get targets of all edges and convert to Node member type
       bindings.map((b) => {
@@ -56,7 +55,7 @@ export default class SparqlQuery<Node> implements Query {
     return out as Node[];
   }
 
-  addElement(element: SparqlElement) {
+  addElement(element: QueryElement) {
     this._root.addChild(element);
   }
 }

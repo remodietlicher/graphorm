@@ -1,11 +1,8 @@
-import SparqlElement from "./SparqlElement";
-import SparqlLeafElement from "./SparqlLeafElement";
-import SparqlVisitor from "./SparqlVisitor";
+import QueryElement from "./QueryElement";
+import LeafElement from "./LeafElement";
+import QueryVisitor from "../visitors/QueryVisitor";
 
-export default class SparqlPrefixElement
-  extends SparqlLeafElement
-  implements SparqlElement
-{
+export default class PrefixElement extends LeafElement implements QueryElement {
   private readonly _abbrev: string;
   private readonly _uri: string;
 
@@ -23,7 +20,7 @@ export default class SparqlPrefixElement
     return this._uri;
   }
 
-  acceptToString(visitor: SparqlVisitor): string {
+  acceptToString(visitor: QueryVisitor): string {
     return visitor.visitPrefix(this);
   }
 }

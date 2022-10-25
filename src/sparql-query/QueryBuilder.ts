@@ -1,21 +1,21 @@
 import { NodeMetadata } from "../metadata/NodeMetadata";
 import { QueryOptions } from "./QueryOptions";
-import SparqlInsertElement from "./sparql/SparqlInsertElement";
-import SparqlPrefixElement from "./sparql/SparqlPrefixElement";
-import SparqlQuery from "./sparql/SparqlQuery";
-import SparqlSelectElement from "./sparql/SparqlSelectElement";
-import SparqlTripleElement from "./sparql/SparqlTripleElement";
+import InsertElement from "./elements/InsertElement";
+import PrefixElement from "./elements/PrefixElement";
+import Query from "./Query";
+import SelectElement from "./elements/SelectElement";
+import SparqlTripleElement from "./elements/TripleElement";
 
 export class QueryBuilder {
   buildSelectQuery(metadata: NodeMetadata, options?: QueryOptions) {
     // create new query
-    const query = new SparqlQuery();
+    const query = new Query();
 
     // select element with all members/edges of the type
     const selectValues = metadata.edges.map((e) => {
       return { name: e.name, type: e.type };
     });
-    const select = new SparqlSelectElement(selectValues);
+    const select = new SelectElement(selectValues);
 
     // add rdf type
     const rdfType = new SparqlTripleElement(
@@ -61,7 +61,7 @@ export class QueryBuilder {
     options?: QueryOptions
   ) {
     // create new query
-    const query = new SparqlQuery();
+    const query = new Query();
 
     // filter class members/edges with "primary: true"
     // and get corresponding member/edge names
@@ -78,7 +78,7 @@ export class QueryBuilder {
     // join all primary member/edge values, use ":" prefix
     const nodeName = `:${primaryPropertyValues.join("")}`;
 
-    const insert = new SparqlInsertElement();
+    const insert = new InsertElement();
 
     // add rdf type
     const rdfType = new SparqlTripleElement(
@@ -102,7 +102,7 @@ export class QueryBuilder {
 
     // set ":" prefix such that new nodes can be added to document with ":NodeName"
     const uri = options?.baseIRI ? options.baseIRI : "";
-    const prefix = new SparqlPrefixElement("", uri);
+    const prefix = new PrefixElement("", uri);
 
     // add all elements to the built query
     query.addElement(prefix);

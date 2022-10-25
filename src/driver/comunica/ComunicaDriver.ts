@@ -1,8 +1,8 @@
 import { NodeMetadata } from "../../metadata/NodeMetadata";
 import QueryDriver from "../QueryDriver";
 import { QueryEngine } from "@comunica/query-sparql-solid";
-import { QueryOptions } from "../../query/QueryOptions";
-import Query from "../../query/Query";
+import { QueryOptions } from "../../sparql-query/QueryOptions";
+import Query from "../../sparql-query/Query";
 
 export class ComunicaDriver implements QueryDriver {
   private _engine: QueryEngine;
@@ -12,7 +12,7 @@ export class ComunicaDriver implements QueryDriver {
   }
 
   async runSelectQuery(
-    query: Query,
+    query: Query<any>,
     metadata: NodeMetadata,
     sources: any,
     options?: QueryOptions
@@ -27,7 +27,7 @@ export class ComunicaDriver implements QueryDriver {
     return query.toType(bindings);
   }
 
-  async runInsertQuery(query: Query, source: any, options?: QueryOptions) {
+  async runInsertQuery(query: Query<any>, source: any, options?: QueryOptions) {
     await this._engine.queryVoid(query.toString(), {
       sources: [source],
       "@comunica/actor-http-inrupt-solid-client-authn:session":

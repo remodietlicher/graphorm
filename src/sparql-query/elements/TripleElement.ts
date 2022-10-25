@@ -1,17 +1,17 @@
-import SparqlElement from "./SparqlElement";
-import SparqlLeafElement from "./SparqlLeafElement";
-import { typeToConverter } from "./SparqlVariableConverter";
-import SparqlVisitor from "./SparqlVisitor";
+import QueryElement from "./QueryElement";
+import LeafElement from "./LeafElement";
+import { typeToConverter } from "../util/VariableConverter";
+import QueryVisitor from "../visitors/QueryVisitor";
 
-interface SparqlTripleElementOptions {
+interface TripleElementOptions {
   subjectType?: string;
   predicateType?: string;
   objectType?: string;
 }
 
 export default class SparqlTripleElement
-  extends SparqlLeafElement
-  implements SparqlElement
+  extends LeafElement
+  implements QueryElement
 {
   private readonly _subject;
   private readonly _predicate;
@@ -24,7 +24,7 @@ export default class SparqlTripleElement
     subject: string,
     predicate: string,
     object: string,
-    options?: SparqlTripleElementOptions
+    options?: TripleElementOptions
   ) {
     super();
     this._subject = subject;
@@ -49,7 +49,7 @@ export default class SparqlTripleElement
     ];
   }
 
-  acceptToString(visitor: SparqlVisitor): string {
+  acceptToString(visitor: QueryVisitor): string {
     return visitor.visitTriple(this);
   }
 }
