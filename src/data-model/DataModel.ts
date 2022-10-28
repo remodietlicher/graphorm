@@ -1,4 +1,6 @@
 import { NodeManager } from "../entity/NodeManager";
+import { MultipleMetadataError } from "../error/metadata/MetadataError";
+import { MissingMetadataError } from "../error/metadata/MissingMetadataError";
 import { getMetadataArgsStorage } from "../globals";
 import { NodeMetadata } from "../metadata/NodeMetadata";
 import { NodeMetadataBuilder } from "../metadata/NodeMetadataBuilder";
@@ -81,10 +83,20 @@ export class DataModel {
     this.createNodeManager();
   }
 
-  getMetadata(target: Function): NodeMetadata | undefined {
-    return this._nodeMetadatas.find((metadata) => {
-      return metadata.target === target;
-    });
+  /**
+   * Get metadata for target class. @param target can either be the name of
+   * the class or the class constructor function.
+   */
+  getMetadata(target: Function | string): NodeMetadata | undefined {
+    const targetName =
+      typeof target === "string" ? target : target.name.toLowerCase();
+    const metadata = this._nodeMetadatas.filter(
+      (metadata) => metadata.target.name.toLowerCase() === targetName
+    );
+    if (!metadata || metadata.length == 0)
+      throw new MissingMetadataError(targetName);
+    if (metadata.length != 1) throw new MultipleMetadataError(targetName);
+    return metadata[0];
   }
 
   buildMetadatas() {

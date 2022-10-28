@@ -1,4 +1,5 @@
 import { DataModel } from "../data-model/DataModel";
+import { MultipleMetadataError } from "../error/metadata/MetadataError";
 import { MetadataArgsStorage } from "./args/MetadataArgsStorage";
 import { EdgeMetadata } from "./EdgeMetadata";
 import { NodeMetadata } from "./NodeMetadata";
@@ -13,29 +14,47 @@ export class NodeMetadataBuilder {
     this._model = model;
   }
 
+  /**
+   * connect edges with their corresponding node
+   */
   build(): NodeMetadata[] {
-    let nodeMetadatas = this._metadataArgsStorage.nodes.map((s) => {
-      const nodeMetadata = new NodeMetadata(this._model, s);
-      nodeMetadata.build();
-      return nodeMetadata;
-    });
-
-    nodeMetadatas = nodeMetadatas.map((s) => {
+    // loop over all class node metadatas
+    const nodeMetadatas = this._metadataArgsStorage.nodes.map((n) => {
+      // get all edge metadata args for this class node
       const edgeArgs = this._metadataArgsStorage.edges.filter(
-        (p) => p.target.name === s.target.name
+        (e) => e.target.name === n.target.name
       );
-      const edges = edgeArgs.map((p) => {
-        const primary = p.options?.primary ? p.options.primary : false;
+      const edges = edgeArgs.map((e) => {
+        const primary = e.options?.primary ? e.options.primary : false;
         return new EdgeMetadata(
-          p.edge,
-          p.type,
-          p.target,
-          p.propertyKey,
+          e.edge,
+          e.type,
+          e.target,
+          e.propertyKey,
           primary
         );
       });
-      s.registerEdges(edges);
-      return s;
+      const nodeMetadata = new NodeMetadata(this._model, n, edges);
+      nodeMetadata.build();
+
+      return nodeMetadata;
+    });
+
+    // link connected edges to their target class metadata
+    nodeMetadatas.forEach((n) => {
+      n.edges.forEach((e) => {
+        let targetNodeMetadata: NodeMetadata;
+        const res = nodeMetadatas.filter(
+          (tn) => tn.target.name.toLowerCase() === e.type.toLowerCase()
+        );
+        if (res.length > 1) {
+          throw new MultipleMetadataError(e.type);
+        } else if (res.length === 1) {
+          // link the found target node metadata to this edge
+          targetNodeMetadata = res[0];
+          e.setTargetNodeMetadata(targetNodeMetadata);
+        }
+      });
     });
 
     return nodeMetadatas;

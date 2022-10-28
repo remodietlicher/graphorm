@@ -13,17 +13,18 @@ export class NodeMetadata {
 
   readonly _model: DataModel;
 
-  constructor(model: DataModel, metadataArgs: NodeMetadataArgs) {
+  constructor(
+    model: DataModel,
+    metadataArgs: NodeMetadataArgs,
+    edges: EdgeMetadata[]
+  ) {
     this._model = model;
     this.metadataArgs = metadataArgs;
+    this.edges = edges;
   }
 
   build() {
     this.rdfObject = this.metadataArgs.rdfObject;
     this.target = this.metadataArgs.target;
-  }
-
-  registerEdges(edges: EdgeMetadata[]) {
-    this.edges.push(...edges);
   }
 }
