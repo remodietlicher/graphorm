@@ -2,7 +2,6 @@ import { NodeManager } from "../entity/NodeManager";
 import { getMetadataArgsStorage } from "../globals";
 import { NodeMetadata } from "../metadata/NodeMetadata";
 import { NodeMetadataBuilder } from "../metadata/NodeMetadataBuilder";
-import { ObjectType } from "../util/ObjectType";
 import DataModelOptions from "./options/DataModelOptions";
 
 /*
@@ -82,7 +81,7 @@ export class DataModel {
     this.createNodeManager();
   }
 
-  getMetadata(target: ObjectType<any>): NodeMetadata | undefined {
+  getMetadata(target: Function): NodeMetadata | undefined {
     return this._nodeMetadatas.find((metadata) => {
       return metadata.target === target;
     });
