@@ -4,7 +4,9 @@ import InsertElement from "./elements/InsertElement";
 import PrefixElement from "./elements/PrefixElement";
 import Query from "./Query";
 import SelectElement from "./elements/SelectElement";
-import SparqlTripleElement from "./elements/TripleElement";
+import TripleElement from "./elements/TripleElement";
+import MetadataToTriplesVisitor from "../metadata/visitors/MetadataToTripleVisitor";
+import MetadataToSelectVariableVisitor from "../metadata/visitors/MetadataToSelectVariableVisitor";
 
 export class QueryBuilder {
   buildSelectQuery(metadata: NodeMetadata, options?: QueryOptions) {
@@ -12,44 +14,17 @@ export class QueryBuilder {
     const query = new Query();
 
     // select element with all members/edges of the type
-    const selectValues = metadata.edges.map((e) => {
-      return { name: e.name, type: e.type };
-    });
+    const selectValues = metadata.acceptMetadataToSelectVariableVisitor(
+      new MetadataToSelectVariableVisitor()
+    );
     const select = new SelectElement(selectValues);
 
-    // add rdf type
-    const rdfType = new SparqlTripleElement(
-      "?x",
-      "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-      metadata.rdfObject
+    const tripleContainer = metadata.acceptMetadataToTripleVisitor(
+      new MetadataToTriplesVisitor(),
+      options?.condition
     );
-    select.addChild(rdfType);
 
-    // construct triples that define for node "x" with given edges/members
-    const triples = metadata.edges.map(
-      (e) => new SparqlTripleElement("?x", e.edge, `?${e.name}`)
-    );
-    select.addChild(triples);
-
-    // set additional restrictions on the query by providing
-    // values for some of the members/edges
-    if (options?.condition) {
-      // only set restrictions for those members/edges given in the optional condition
-      const restrictedEdges = metadata.edges.filter((e) =>
-        Object.keys(options.condition).includes(e.name)
-      );
-      // map the restricted edges to triple elements
-      const restrictions = restrictedEdges.map(
-        (e) =>
-          new SparqlTripleElement("?x", e.edge, options.condition[e.name], {
-            objectType: e.type,
-          })
-      );
-      // if there are any matches, add the restrictions to the select element
-      if (restrictions) {
-        select.addChild(restrictions);
-      }
-    }
+    select.addChild(tripleContainer);
     query.addElement(select);
 
     return query;
@@ -81,7 +56,7 @@ export class QueryBuilder {
     const insert = new InsertElement();
 
     // add rdf type
-    const rdfType = new SparqlTripleElement(
+    const rdfType = new TripleElement(
       nodeName,
       "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
       metadata.rdfObject
@@ -93,7 +68,7 @@ export class QueryBuilder {
       const edge = metadata.edges.find((e) => e.name === key);
 
       if (edge) {
-        const triple = new SparqlTripleElement(nodeName, edge?.edge, value, {
+        const triple = new TripleElement(nodeName, edge?.edge, value, {
           objectType: edge?.type,
         });
         insert.addChild(triple);

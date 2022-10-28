@@ -1,6 +1,10 @@
 import { DataModel } from "../data-model/DataModel";
+import ContainerElement from "../sparql-query/elements/ContainerElement";
+import QueryVariable from "../sparql-query/util/QueryVariable";
 import { NodeMetadataArgs } from "./args/NodeMetadataArgs";
 import { EdgeMetadata } from "./EdgeMetadata";
+import MetadataToSelectVariableVisitor from "./visitors/MetadataToSelectVariableVisitor";
+import MetadataToTriplesVisitor from "./visitors/MetadataToTripleVisitor";
 
 export class NodeMetadata {
   rdfObject: string;
@@ -26,5 +30,25 @@ export class NodeMetadata {
   build() {
     this.rdfObject = this.metadataArgs.rdfObject;
     this.target = this.metadataArgs.target;
+  }
+
+  /**
+   * Convert class node metadata to a tree of nested query ContainerElements
+   * for class node type members and TripleElements for regular class members
+   */
+  acceptMetadataToTripleVisitor(
+    visitor: MetadataToTriplesVisitor,
+    condition: any
+  ): ContainerElement {
+    return visitor.visitNode(this, condition);
+  }
+
+  /**
+   * convert class node metadata to a list of query variables
+   */
+  acceptMetadataToSelectVariableVisitor(
+    visitor: MetadataToSelectVariableVisitor
+  ): QueryVariable[] {
+    return visitor.visitNode(this);
   }
 }

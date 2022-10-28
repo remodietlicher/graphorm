@@ -9,10 +9,7 @@ interface TripleElementOptions {
   objectType?: string;
 }
 
-export default class SparqlTripleElement
-  extends LeafElement
-  implements QueryElement
-{
+export default class TripleElement extends LeafElement implements QueryElement {
   private readonly _subject;
   private readonly _predicate;
   private readonly _object;

@@ -1,7 +1,8 @@
+import ContainerElement from "../elements/ContainerElement";
 import InsertElement from "../elements/InsertElement";
 import PrefixElement from "../elements/PrefixElement";
 import SelectElement from "../elements/SelectElement";
-import SparqlTripleElement from "../elements/TripleElement";
+import TripleElement from "../elements/TripleElement";
 import QueryVisitor from "./QueryVisitor";
 
 export default class QueryToStringVisitor implements QueryVisitor {
@@ -14,7 +15,7 @@ export default class QueryToStringVisitor implements QueryVisitor {
     return query;
   }
 
-  visitTriple(e: SparqlTripleElement): string {
+  visitTriple(e: TripleElement): string {
     const query = `${e.getTriple().join(" ")}.`;
     return query;
   }
@@ -25,7 +26,7 @@ export default class QueryToStringVisitor implements QueryVisitor {
     return query;
   }
 
-  visitContainer(e: InsertElement): string {
+  visitContainer(e: ContainerElement): string {
     const childrenQuery = e.getChildren().map((e) => e.acceptToString(this));
     return childrenQuery.join("\n");
   }
