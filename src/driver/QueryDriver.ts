@@ -7,7 +7,6 @@ export type QueryDriverType = "comunica";
 abstract class QueryDriver {
   abstract runSelectQuery(
     query: Query<any>,
-    metadata: NodeMetadata,
     sources: any,
     options?: QueryOptions
   );

@@ -1,4 +1,3 @@
-import { NodeMetadata } from "../../metadata/NodeMetadata";
 import QueryDriver from "../QueryDriver";
 import { QueryEngine } from "@comunica/query-sparql-solid";
 import { QueryOptions } from "../../sparql-query/QueryOptions";
@@ -13,7 +12,6 @@ export class ComunicaDriver implements QueryDriver {
 
   async runSelectQuery(
     query: Query<any>,
-    metadata: NodeMetadata,
     sources: any,
     options?: QueryOptions
   ) {

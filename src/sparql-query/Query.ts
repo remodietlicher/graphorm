@@ -32,12 +32,12 @@ export default class Query<Node> {
         let node: any = {};
         select.getSelect().map((s) => {
           const value = b.get(`${s.name}`)!.value;
-          switch (s.type) {
-            case "String": {
+          switch (s.type?.toLowerCase()) {
+            case "string": {
               node[s.name] = value;
               break;
             }
-            case "Number": {
+            case "number": {
               node[s.name] = +value;
               break;
             }

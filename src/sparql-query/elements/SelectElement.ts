@@ -14,6 +14,9 @@ export default class SelectElement
     this._select = select;
   }
 
+  /**
+   * get the query variables returned by this select query
+   */
   getSelect(): QueryVariable[] {
     return this._select;
   }

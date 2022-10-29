@@ -31,12 +31,7 @@ export class NodeManager {
 
     if (metadata) {
       const query = this._queryBuilder.buildSelectQuery(metadata, options);
-      const result = await this._driver.runSelectQuery(
-        query,
-        metadata,
-        sources,
-        options
-      );
+      const result = await this._driver.runSelectQuery(query, sources, options);
       return result as Node[];
     }
   }
