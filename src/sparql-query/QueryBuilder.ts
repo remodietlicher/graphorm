@@ -46,8 +46,8 @@ export class QueryBuilder {
 
     // get corresponding values to primary members/edges
     let primaryPropertyValues: string[] = [];
-    for (const [key, value] of Object.entries(node)) {
-      if (primaryNames.includes(key)) primaryPropertyValues.push(value);
+    for (const [key, value] of Object.entries(node as any)) {
+      if (primaryNames.includes(key)) primaryPropertyValues.push(value as any);
     }
 
     // join all primary member/edge values, use ":" prefix
@@ -64,13 +64,18 @@ export class QueryBuilder {
     insert.addChild(rdfType);
 
     // generate sparql triple elements for each member/edge
-    for (const [key, value] of Object.entries(node)) {
+    for (const [key, value] of Object.entries(node as any)) {
       const edge = metadata.edges.find((e) => e.name === key);
 
       if (edge) {
-        const triple = new TripleElement(nodeName, edge?.edge, value, {
-          objectType: edge?.type,
-        });
+        const triple = new TripleElement(
+          nodeName,
+          edge?.edge,
+          value as string,
+          {
+            objectType: edge?.type,
+          }
+        );
         insert.addChild(triple);
       }
     }
