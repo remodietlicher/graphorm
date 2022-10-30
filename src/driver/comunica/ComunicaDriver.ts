@@ -21,8 +21,7 @@ export class ComunicaDriver implements QueryDriver {
         options?.session,
     });
 
-    const bindings = await bindingStream.toArray();
-    return query.toType(bindings);
+    return bindingStream.toArray();
   }
 
   async runInsertQuery(query: Query<any>, source: any, options?: QueryOptions) {

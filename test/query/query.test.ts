@@ -21,7 +21,7 @@ describe("The query builder should produce a valid SPARQL query string", () => {
   });
   it("Should produce a select query with triple pattern", async () => {
     const triple = new TripleElement("ex:s", "ex:p", "?object");
-    const select = new SelectElement([{ name: "object" }]);
+    const select = new SelectElement(["object"]);
     select.addChild(triple);
     const query = select.acceptToString(new QueryToStringVisitor());
     expect(query).toBe("SELECT ?object WHERE { ex:s ex:p ?object. }");
@@ -30,7 +30,7 @@ describe("The query builder should produce a valid SPARQL query string", () => {
     const query = new Query();
     const triple1 = new TripleElement("ex:s", "ex:p", "?object");
     const triple2 = new TripleElement("ex:s", "ex:p2", "ex:o");
-    const select = new SelectElement([{ name: "object" }]);
+    const select = new SelectElement(["object"]);
     select.addChild(triple1);
     select.addChild(triple2);
     query.addElement(select);

@@ -7,7 +7,7 @@ import QueryVisitor from "./QueryVisitor";
 
 export default class QueryToStringVisitor implements QueryVisitor {
   visitSelect(e: SelectElement): string {
-    const select = e.getSelect().map((s) => `?${s.name}`);
+    const select = e.getSelect().map((s) => `?${s}`);
     const childrenQuery = e.getChildren().map((e) => e.acceptToString(this));
     const query = `SELECT ${select.join(" ")} WHERE { ${childrenQuery.join(
       "\n"

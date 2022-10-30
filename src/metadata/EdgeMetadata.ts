@@ -1,6 +1,7 @@
+import { Bindings } from "@comunica/types";
 import QueryElement from "../sparql-query/elements/QueryElement";
-import QueryVariable from "../sparql-query/util/QueryVariable";
 import { NodeMetadata } from "./NodeMetadata";
+import BindingsToObjectVisitor from "./visitors/BindingsToObjectVisitor";
 import MetadataToSelectVariableVisitor from "./visitors/MetadataToSelectVariableVisitor";
 import MetadataToTriplesVisitor from "./visitors/MetadataToTripleVisitor";
 
@@ -57,7 +58,18 @@ export class EdgeMetadata {
    */
   acceptMetadataToSelectVariableVisitor(
     visitor: MetadataToSelectVariableVisitor
-  ): QueryVariable[] {
+  ): string[] {
     return visitor.visitEdge(this);
+  }
+
+  /**
+   * convert SPARQL select return variable to it's corresponding
+   * class object member
+   */
+  acceptBindingsToObjectVisitor(
+    visitor: BindingsToObjectVisitor,
+    bindings: Bindings
+  ) {
+    return visitor.visitEdge(this, bindings);
   }
 }

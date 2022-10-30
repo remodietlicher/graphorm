@@ -1,6 +1,7 @@
 import { DataModel } from "../data-model/DataModel";
 import { ComunicaDriver } from "../driver/comunica/ComunicaDriver";
 import QueryDriver from "../driver/QueryDriver";
+import BindingsToObjectVisitor from "../metadata/visitors/BindingsToObjectVisitor";
 import { QueryBuilder } from "../sparql-query/QueryBuilder";
 import { QueryOptions } from "../sparql-query/QueryOptions";
 import { ObjectType } from "../util/ObjectType";
@@ -31,8 +32,25 @@ export class NodeManager {
 
     if (metadata) {
       const query = this._queryBuilder.buildSelectQuery(metadata, options);
-      const result = await this._driver.runSelectQuery(query, sources, options);
-      return result as Node[];
+      const bindingsArray = await this._driver.runSelectQuery(
+        query,
+        sources,
+        options
+      );
+
+      // pass the bindings object from the sparql query result through
+      // the metadata tree to recover a object with shape defined by the
+      // metadata
+      const results: any[] = [];
+      bindingsArray.map((bindings) => {
+        const classObject = metadata.acceptBindingsToObjectVisitor(
+          new BindingsToObjectVisitor(),
+          bindings
+        );
+        results.push(classObject);
+      });
+
+      return results as Node[];
     }
   }
 

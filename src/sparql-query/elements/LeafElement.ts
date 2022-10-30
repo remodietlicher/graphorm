@@ -1,10 +1,10 @@
 import QueryElement from "./QueryElement";
 import QueryVisitor from "../visitors/QueryVisitor";
-import { QueryElementError } from "../../error/query/QueryElementError";
+import { QueryConstructionError } from "../../error/query/QueryElementError";
 
 export default abstract class LeafElement implements QueryElement {
   addChild(child: QueryElement): void {
-    throw new QueryElementError("cannot add child to leaf element");
+    throw new QueryConstructionError("cannot add child to leaf element");
   }
 
   getChildren(): QueryElement[] {

@@ -1,8 +1,9 @@
+import { Bindings } from "@comunica/types";
 import { DataModel } from "../data-model/DataModel";
 import ContainerElement from "../sparql-query/elements/ContainerElement";
-import QueryVariable from "../sparql-query/util/QueryVariable";
 import { NodeMetadataArgs } from "./args/NodeMetadataArgs";
 import { EdgeMetadata } from "./EdgeMetadata";
+import BindingsToObjectVisitor from "./visitors/BindingsToObjectVisitor";
 import MetadataToSelectVariableVisitor from "./visitors/MetadataToSelectVariableVisitor";
 import MetadataToTriplesVisitor from "./visitors/MetadataToTripleVisitor";
 
@@ -48,7 +49,18 @@ export class NodeMetadata {
    */
   acceptMetadataToSelectVariableVisitor(
     visitor: MetadataToSelectVariableVisitor
-  ): QueryVariable[] {
+  ): string[] {
     return visitor.visitNode(this);
+  }
+
+  /**
+   * convert SPARQL query result bindings to an object with the shape specified by the
+   * metadata tree structure
+   */
+  acceptBindingsToObjectVisitor(
+    visitor: BindingsToObjectVisitor,
+    bindings: Bindings
+  ) {
+    return visitor.visitNode(this, bindings);
   }
 }

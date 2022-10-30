@@ -1,7 +1,7 @@
 /**
- * Error emitted when query element construction fails
+ * Error emitted when query construction fails
  */
-export class QueryElementError extends Error {
+export class QueryConstructionError extends Error {
   constructor(message: string) {
     super(`Failed to construct query: ${message}`);
   }

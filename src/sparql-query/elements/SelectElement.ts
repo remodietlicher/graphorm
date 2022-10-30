@@ -1,15 +1,14 @@
 import ContainerElement from "./ContainerElement";
 import QueryElement from "./QueryElement";
 import QueryToStringVisitor from "../visitors/QueryToStringVisitor";
-import QueryVariable from "../util/QueryVariable";
 
 export default class SelectElement
   extends ContainerElement
   implements QueryElement
 {
-  private readonly _select: QueryVariable[];
+  private readonly _select: string[];
 
-  constructor(select: QueryVariable[]) {
+  constructor(select: string[]) {
     super();
     this._select = select;
   }
@@ -17,7 +16,7 @@ export default class SelectElement
   /**
    * get the query variables returned by this select query
    */
-  getSelect(): QueryVariable[] {
+  getSelect(): string[] {
     return this._select;
   }
   acceptToString(visitor: QueryToStringVisitor): string {

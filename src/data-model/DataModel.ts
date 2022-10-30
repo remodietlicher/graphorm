@@ -1,5 +1,5 @@
 import { NodeManager } from "../entity/NodeManager";
-import { MultipleMetadataError } from "../error/metadata/MetadataError";
+import { MultipleMetadataError } from "../error/metadata/MultipleMetadataError";
 import { MissingMetadataError } from "../error/metadata/MissingMetadataError";
 import { getMetadataArgsStorage } from "../globals";
 import { NodeMetadata } from "../metadata/NodeMetadata";

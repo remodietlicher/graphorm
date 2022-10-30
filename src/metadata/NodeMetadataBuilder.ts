@@ -1,5 +1,5 @@
 import { DataModel } from "../data-model/DataModel";
-import { MultipleMetadataError } from "../error/metadata/MetadataError";
+import { MultipleMetadataError } from "../error/metadata/MultipleMetadataError";
 import { MetadataArgsStorage } from "./args/MetadataArgsStorage";
 import { EdgeMetadata } from "./EdgeMetadata";
 import { NodeMetadata } from "./NodeMetadata";
